@@ -1,12 +1,24 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
+import { DxTabsModule } from 'devextreme-angular/ui/tabs';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, DxTabsModule, CommonModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'PriceCalculatorClinet';
+  tabs = [
+    { text: 'Ingredient', path: '/ingredients' },
+    { text: 'Products', path: '/products' },
+    { text: 'Items', path: '/items' },
+    { text: 'Settings', path: '/settings' },
+  ];
+  constructor(private router: Router) {}
+
+  onTabClick(e: any) {
+    this.router.navigateByUrl(e.itemData.path);
+  }
 }

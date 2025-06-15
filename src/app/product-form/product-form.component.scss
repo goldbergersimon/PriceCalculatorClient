@@ -1,0 +1,94 @@
+.product-form {
+    height: 850px;
+    max-width: 1500px;
+    margin: 40px auto;
+    padding: 20px;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f6f6f6;
+    border: 1px solid #d0d0d0;
+    border-radius: 6px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+}
+
+.name {
+    margin: 0 auto 20px auto;
+    width: 40%;
+
+    label {
+        font-weight: 600;
+        margin-bottom: 6px;
+        display: block;
+        padding-left: 6px;
+    }
+}
+
+.grid-section {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    justify-content: space-between;
+    height: 50%;
+}
+
+.grid-half {
+    flex: 1;
+    min-width: 400px;
+    h4 {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+        padding-left: 6px;
+    }
+            ::ng-deep .dx-datagrid {
+            height: 375px;
+            border-radius: 4px;
+            border: 1px solid #c0c0c0;
+            font-size: 13px;
+        }
+}
+
+.summary-panel {
+    margin: 60px auto;
+    border: 1px solid #ccc;
+    background: #fff;
+    width: 100%;
+    max-width: 600px;
+    font-size: 14px;
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+        td {
+            padding: 8px;
+            border: 1px solid #ccc;
+            vertical-align: top;
+        }
+        td:nth-child(odd) {
+            font-weight: 500;
+            width: 30%;
+        }
+        td:nth-child(even) {
+            width: 20%;
+        }
+
+        input {
+            width: 100%;
+            padding: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+            border: none;
+        }
+    }
+}
+
+.save-button {
+    text-align: center;
+    margin-top: 90px;
+
+    ::ng-deep .dx-button {
+        min-width: 100px;
+        background-color: #4caf50;
+        color: white;
+    }
+}

@@ -1,0 +1,12 @@
+<div id="item-data-grid">
+    <dx-data-grid [dataSource]="items" [showBorders]="true" [columnAutoWidth]="false" [allowColumnResizing]="false"
+        [rowAlternationEnabled]="true" class="grid-bordered">
+        <dxi-column dataField="itemName" caption="Name"></dxi-column>
+        <dxi-column dataField="costPrice" caption="Cost Price" [format]="{type: 'currency', precision: 2}"></dxi-column>
+        <dxi-column dataField="ownPrice" caption="Own Price" [format]="{type: 'currency', precision: 2}"></dxi-column>
+        <dxi-column dataField="wholesalePrice" caption="Wholesale Price"
+            [format]="{type: 'currency', precision: 2}"></dxi-column>
+        <dxi-column dataField="retailPrice" caption="Retail Price"
+            [format]="{type: 'currency', precision: 2}"></dxi-column>
+    </dx-data-grid>
+</div>

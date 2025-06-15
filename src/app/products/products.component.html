@@ -1,0 +1,21 @@
+<div id="product-data-grid">
+    <dx-data-grid [dataSource]="products" [showBorders]="true" [columnAutoWidth]="false" [allowColumnResizing]="false"
+        [rowAlternationEnabled]="true"
+        [editing]="{allowUpdating: true, allowAdding: true, allowDeleting: true, mode: 'popup'}" class="grid-bordered"
+        (onEditingStart)="onEditingStart($event)" (onInitNewRow)="onInitNewRow($event)">
+        <dxi-column dataField="name" caption="Name"></dxi-column>
+        <dxi-column dataField="costPrice" caption="Cost Price" [format]="{type: 'currency', precision: 2}"></dxi-column>
+        <dxi-column dataField="containers" caption="Containers"
+            [format]="{type: 'fixedPoint', precision: 2}"></dxi-column>
+        <dxi-column dataField="oz" caption="Oz" [format]="{type: 'fixedPoint', precision: 2}"></dxi-column>
+        <dxi-column dataField="pieces" caption="Pieces"></dxi-column>
+    </dx-data-grid>
+
+    <dx-popup [visible]="popupVisible" [showTitle]="true" title="Edit Product" [showCloseButton]="true"
+        [dragEnabled]="true" (onHiding)="popupVisible = false">
+        <ng-container>
+            <app-product-form *ngIf="popupVisible" [productId]="selectedProductId"
+                (formSaved)="onFormSaved()"></app-product-form>
+        </ng-container>
+    </dx-popup>
+</div>

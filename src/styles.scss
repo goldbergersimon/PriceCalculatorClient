@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+.dx-datagrid-headers {
+    background-color: #f0f0f0;
+    color: #080808;
+    font-weight: bold;
+    font-size: 14PX;
+    text-transform: capitalize;
+}
+
+.dx-header-row > td {
+    border-bottom: 2px solid #ccc;
+    padding: 10px;
+}
+
+.dx-datagrid-headers .dx-header-row > td {
+    text-align: left !important;
+    padding-left: 12px;
+}

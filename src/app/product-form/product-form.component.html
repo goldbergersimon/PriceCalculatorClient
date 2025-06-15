@@ -1,0 +1,83 @@
+<form #form="ngForm" (ngSubmit)="saveProduct()">
+    <div class="product-form">
+        <!--Header-->
+        <div class="name">
+            <label for="productName">Product Name</label>
+            <dx-text-box [width]="'100%'" id="productName" [(value)]="product.name" placeholder="Enter product name"
+                [isValid]="product.name?.length > 0" isInvalid="!product.name?.length">
+                <dxi-validation-rule type="required" message="Product name is required"></dxi-validation-rule>
+            </dx-text-box>
+        </div>
+
+
+        <!--Grid area-->
+        <div class="grid-section">
+            <!--Ingredient Grid-->
+            <div class="grid-half">
+                <h4>Ingredients</h4>
+                <dx-data-grid [dataSource]="ingredients" [showBorders]="true" [columnAutoWidth]="false"
+                    [allowColumnResizing]="false" [rowAlternationEnabled]="true" [paging]="{ enabled: false }"
+                    [editing]="{ mode: 'row', allowUpdating: true, allowDeleting: true, allowAdding: true }">
+                    <dxi-column dataField="ingredientID" caption="Ingredient Name">
+                        <dxo-lookup [dataSource]="allIngredients" valueExpr="ingredientID"
+                            displayExpr="name"></dxo-lookup>
+                    </dxi-column>
+                    <dxi-column dataField="quantity" caption="Qty" dataType="number"></dxi-column>
+                    <dxi-column dataField="unit" caption="Unit">
+                        <dxo-lookup [dataSource]="" valueExpr="" displayExpr=""></dxo-lookup>
+                    </dxi-column>
+                    <dxi-column dataField="totalCostPerItem" caption="Total" format="currency"></dxi-column>
+                </dx-data-grid>
+            </div>
+
+
+
+            <!--Labor Grid-->
+            <div class="grid-half">
+                <h4>Labor</h4>
+                <dx-data-grid [dataSource]="labors" [showBorders]="true" [rowAlternationEnabled]="true"
+                    [paging]="{ enabled: false }"
+                    [editing]="{ mode: 'row', allowUpdating: true, allowDeleting: true, allowAdding: true }">
+                    <dxi-column dataField="laborName" caption="Process Name">
+                        <dxi-validation-rule type="required" message="Process name is required"></dxi-validation-rule>
+                    </dxi-column>
+                    <dxi-column dataField="duration" caption="Time" dataType="datetime" format="HH:mm:ss"></dxi-column>
+                    <dxi-column dataField="workers" caption="# of workers" dataType="number"></dxi-column>
+                    <dxi-column dataField="yields" caption="Yields" dataType="number"></dxi-column>
+                    <dxi-column dataField="totalLaborPerItem" caption="Time per item" dataType="datetime"
+                        format="HH:mm:ss"></dxi-column>
+                </dx-data-grid>
+            </div>
+        </div>
+
+        <!--Summary panel-->
+        <div class="summary-panel">
+            <table>
+                <tr>
+                    <td>Yields by weight oz:</td>
+                    <td><input type="number" [(ngModel)]="product.oz" /></td>
+                    <td>Ingredient Cost:</td>
+                    <td>{{product.ingredientCost | currency}}</td>
+
+                </tr>
+                <tr>
+                    <td>Yields by container:</td>
+                    <td><input type="number" [(ngModel)]="product.container" /></td>
+                    <td>Labor Cost:</td>
+                    <td>{{product.laborCost | currency}}</td>
+                </tr>
+                <tr>
+                    <td>Yields by pieces:</td>
+                    <td><input type="number" [(ngModel)]="product.pieces" /></td>
+                    <td><strong>Total Product Cost:</strong></td>
+                    <td><strong>{{product.costPrice | currency}}</strong></td>
+                </tr>
+            </table>
+        </div>
+
+        <!--Save-button-->
+        <div class="save-button">
+            <dx-button text="Save" type="success"></dx-button>
+        </div>
+    </div>
+</form>
