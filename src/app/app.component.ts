@@ -11,9 +11,9 @@ import { DxTabsModule } from 'devextreme-angular/ui/tabs';
 })
 export class AppComponent {
   tabs = [
-    { text: 'Ingredient', path: '/ingredients' },
-    { text: 'Products', path: '/products' },
     { text: 'Items', path: '/items' },
+    { text: 'Recipes', path: '/recipes' },
+    { text: 'Ingredients', path: '/ingredients' },
     { text: 'Settings', path: '/settings' },
   ];
   constructor(private router: Router) {}

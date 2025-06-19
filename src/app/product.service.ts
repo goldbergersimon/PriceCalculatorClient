@@ -3,12 +3,43 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 export interface IProduct {
-  productId: number;
+  productId?: number;
   name: string;
   costPrice: number;
-  container: number;
-  pieces: number;
-  oz: number;
+  container?: number;
+  pieces?: number;
+  oz?: number;
+}
+export interface IProductDetails {
+  productId?: number;
+  name: string;
+  costPrice: number;
+  ingredientCost: number;
+  laborCost: number;
+  oz?: number;
+  container?: number;
+  pieces?: number;
+  productIngredients: IProductIngredient[];
+  productLabors: IProductLabor[];
+}
+
+export interface IProductIngredient {
+  productIngredientId: number;
+  productId: number;
+  ingredientId: number;
+  quantity: number;
+  unit: string;
+}
+
+export interface IProductLabor {
+  id: number;
+  laborName: string;
+  duration: string;
+  workers: number;
+  yields: number;
+  totalLaborPerItem: string;
+  totalLaborCost: number;
+  productId: number;
 }
 
 @Injectable({

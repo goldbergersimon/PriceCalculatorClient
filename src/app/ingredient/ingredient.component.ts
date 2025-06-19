@@ -57,6 +57,7 @@ export class IngredientComponent implements OnInit {
   }
 
   onRowRemoving(e: any) {
+    e.cancel = true; // Prevent the default delete action
     this.ingredientSvc.deleteIngredient(e.data.ingredientID).subscribe({
       next: () => {
         console.log('Ingredient deleted successfully');
@@ -71,8 +72,6 @@ export class IngredientComponent implements OnInit {
         } else {
           notify('An unexpected error occurred.', 'error', 4000);
         }
-
-        e.cancel = true; // Prevent the default delete action
       },
     });
   }

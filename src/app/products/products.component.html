@@ -3,7 +3,8 @@
         [rowAlternationEnabled]="true"
         [editing]="{allowUpdating: true, allowAdding: true, allowDeleting: true, mode: 'popup'}"
         [searchPanel]="{visible: true, highlightSearchText: true, width: 500, placeholder: 'Search products...'}"
-        class="grid-bordered" (onEditingStart)="onEditingStart($event)" (onInitNewRow)="onInitNewRow($event)">
+        class="grid-bordered" (onEditingStart)="onEditingStart($event)" (onInitNewRow)="onInitNewRow($event)"
+        (onRowRemoving)="onRowRemoving($event)">
         <dxi-column dataField="name" caption="Name"></dxi-column>
         <dxi-column dataField="costPrice" caption="Cost Price" [format]="{type: 'currency', precision: 2}"></dxi-column>
         <dxi-column dataField="containers" caption="Containers"
@@ -17,11 +18,11 @@
         </dxi-column>
     </dx-data-grid>
 
-    <dx-popup [visible]="popupVisible" [showTitle]="true" title="Edit Product" [showCloseButton]="true"
+    <dx-popup [visible]="popupVisible" [showTitle]="true" title="Edit Recipe" [showCloseButton]="true"
         [dragEnabled]="true" (onHiding)="popupVisible = false">
         <ng-container>
             <app-product-form *ngIf="popupVisible" [productId]="selectedProductId"
-                (formSaved)="onFormSaved()"></app-product-form>
+                (formSaved)="onFormSaved($event)"></app-product-form>
         </ng-container>
     </dx-popup>
 </div>

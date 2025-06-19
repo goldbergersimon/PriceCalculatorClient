@@ -6,8 +6,8 @@ import { SettingsComponent } from './settings/settings.component';
 
 export const routes: Routes = [
   { path: 'ingredients', component: IngredientComponent },
-  { path: 'products', component: ProductsComponent },
+  { path: 'recipes', component: ProductsComponent },
   { path: 'items', component: ItemsComponent },
   { path: 'settings', component: SettingsComponent },
-  { path: '', redirectTo: 'ingredients', pathMatch: 'full' },
+  { path: '', redirectTo: 'items', pathMatch: 'full' },
 ];

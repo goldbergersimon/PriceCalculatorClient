@@ -1,4 +1,4 @@
-import { ProductService } from './../product.service';
+import { IProduct, ProductService } from './../product.service';
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -34,7 +34,7 @@ import { Ingredient, IngredientService } from '../ingredient.service';
 })
 export class ProductFormComponent implements OnInit {
   productId = input<number>();
-  @Output() formSaved = new EventEmitter<void>();
+  @Output() formSaved = new EventEmitter<IProduct>();
 
   product: any = {};
   ingredients: any[] = [];
@@ -100,9 +100,9 @@ export class ProductFormComponent implements OnInit {
     this.product.ingredients = this.ingredients;
     this.product.labors = this.labors;
     this.productSvc.saveProduct(this.product).subscribe({
-      next: () => {
+      next: (savedProduct) => {
         notify('product saved successfully', 'succes', 3000);
-        this.formSaved.emit();
+        this.formSaved.emit(savedProduct);
       },
       error: (err) => {
         console.error('Error saving product', err);

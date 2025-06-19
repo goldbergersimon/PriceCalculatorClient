@@ -48,11 +48,21 @@ export class ProductsComponent implements OnInit {
     console.log('Opening form for product ID:', productId);
   }
 
-  onFormSaved() {
+  onFormSaved(savedProduct: IProduct) {
     this.popupVisible = false;
+    const index = this.products.findIndex(
+      (p) => p.productId === savedProduct.productId
+    );
+    if (index !== -1) {
+      this.products[index] = savedProduct;
+    } else {
+      this.products.push(savedProduct);
+    }
   }
   onInitNewRow(e: any) {
     e.cancel = true; // Prevent the default inserting behavior
     this.openForm();
   }
+
+  onRowRemoving(e: any) {}
 }
