@@ -27,4 +27,12 @@ export class ProductService {
   getProductById(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
+
+  saveProduct(product: any): Observable<any> {
+    if (!product.productID) {
+      return this.http.post<any>(this.apiUrl, product);
+    } else {
+      return this.http.put<any>(`this.apiUrl/${product.productID}`, product);
+    }
+  }
 }

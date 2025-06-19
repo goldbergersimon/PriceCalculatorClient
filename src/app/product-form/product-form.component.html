@@ -17,16 +17,23 @@
                 <h4>Ingredients</h4>
                 <dx-data-grid [dataSource]="ingredients" [showBorders]="true" [columnAutoWidth]="false"
                     [allowColumnResizing]="false" [rowAlternationEnabled]="true" [paging]="{ enabled: false }"
-                    [editing]="{ mode: 'row', allowUpdating: true, allowDeleting: true, allowAdding: true }">
+                    [editing]="{ mode: 'row', allowUpdating: true, allowDeleting: true, allowAdding: true }"
+                    (onFocusedCellChanged)="onFocusedCellChanged($event)">
                     <dxi-column dataField="ingredientID" caption="Ingredient Name">
                         <dxo-lookup [dataSource]="allIngredients" valueExpr="ingredientID"
                             displayExpr="name"></dxo-lookup>
                     </dxi-column>
                     <dxi-column dataField="quantity" caption="Qty" dataType="number"></dxi-column>
-                    <dxi-column dataField="unit" caption="Unit">
-                        <dxo-lookup [dataSource]="" valueExpr="" displayExpr=""></dxo-lookup>
+                    <dxi-column dataField="unit" caption="Unit" [calculateDisplayValue]="getUnitDisplay">
+                        <dxo-lookup [dataSource]="units" displayExpr="" valueExpr=""></dxo-lookup>
                     </dxi-column>
-                    <dxi-column dataField="totalCostPerItem" caption="Total" format="currency"></dxi-column>
+                    <dxi-column dataField="totalCostPerItem" caption="Total" [format]="{type: 'currency', precision: 2}"
+                        [allowEditing]="false"></dxi-column>
+
+                    <dxi-column type="buttons" width="110">
+                        <dxi-button name="edit" icon="edit" hint="Edit"></dxi-button>
+                        <dxi-button name="delete" icon="trash" hint="Delete"></dxi-button>
+                    </dxi-column>
                 </dx-data-grid>
             </div>
 
@@ -41,11 +48,17 @@
                     <dxi-column dataField="laborName" caption="Process Name">
                         <dxi-validation-rule type="required" message="Process name is required"></dxi-validation-rule>
                     </dxi-column>
-                    <dxi-column dataField="duration" caption="Time" dataType="datetime" format="HH:mm:ss"></dxi-column>
+                    <dxi-column dataField="duration" caption="Time">
+                    </dxi-column>
                     <dxi-column dataField="workers" caption="# of workers" dataType="number"></dxi-column>
                     <dxi-column dataField="yields" caption="Yields" dataType="number"></dxi-column>
                     <dxi-column dataField="totalLaborPerItem" caption="Time per item" dataType="datetime"
-                        format="HH:mm:ss"></dxi-column>
+                        format="HH:mm:ss" [allowEditing]="false"></dxi-column>
+
+                    <dxi-column type="buttons" width="110">
+                        <dxi-button name="edit" icon="edit" hint="Edit"></dxi-button>
+                        <dxi-button name="delete" icon="trash" hint="Delete"></dxi-button>
+                    </dxi-column>
                 </dx-data-grid>
             </div>
         </div>
@@ -55,20 +68,20 @@
             <table>
                 <tr>
                     <td>Yields by weight oz:</td>
-                    <td><input type="number" [(ngModel)]="product.oz" /></td>
+                    <td><input type="number" [(ngModel)]="product.oz" name="oz" /></td>
                     <td>Ingredient Cost:</td>
                     <td>{{product.ingredientCost | currency}}</td>
 
                 </tr>
                 <tr>
                     <td>Yields by container:</td>
-                    <td><input type="number" [(ngModel)]="product.container" /></td>
+                    <td><input type="number" [(ngModel)]="product.container" name="container" /></td>
                     <td>Labor Cost:</td>
                     <td>{{product.laborCost | currency}}</td>
                 </tr>
                 <tr>
                     <td>Yields by pieces:</td>
-                    <td><input type="number" [(ngModel)]="product.pieces" /></td>
+                    <td><input type="number" [(ngModel)]="product.pieces" name="pieces" /></td>
                     <td><strong>Total Product Cost:</strong></td>
                     <td><strong>{{product.costPrice | currency}}</strong></td>
                 </tr>
@@ -77,7 +90,7 @@
 
         <!--Save-button-->
         <div class="save-button">
-            <dx-button text="Save" type="success"></dx-button>
+            <dx-button text="Save" type="success" [useSubmitBehavior]="true"></dx-button>
         </div>
     </div>
 </form>

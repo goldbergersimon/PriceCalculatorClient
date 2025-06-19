@@ -14,12 +14,14 @@ export interface Ingredient {
   pricePerTsp: number;
   pieces: number;
   pricePerPiece: number;
-  container: number;
+  containers: number;
   pricePerContainer: number;
   pounds: number;
   pricePerPound: number;
   oz: number;
   pricePerOz: number;
+
+  [key: string]: number | string | undefined;
 }
 
 @Injectable({

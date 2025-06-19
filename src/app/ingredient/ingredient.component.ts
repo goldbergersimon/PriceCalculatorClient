@@ -87,9 +87,16 @@ export class IngredientComponent implements OnInit {
 
     if (
       e.parentType === 'dataRow' &&
-      ['cups', 'tbs', 'tsp', 'pieces', 'containers', 'pounds', 'oz'].includes(
-        e.dataField
-      )
+      [
+        'cups',
+        'tbs',
+        'tsp',
+        'pieces',
+        'containers',
+        'pounds',
+        'oz',
+        'totalCost',
+      ].includes(e.dataField)
     ) {
       const originalOnValueChanged = e.editorOptions.onValueChanged;
       e.editorOptions.onValueChanged = (args: any) => {

@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import {
   DxButtonModule,
   DxDataGridModule,
+  DxSelectBoxModule,
   DxTextBoxModule,
 } from 'devextreme-angular';
 import notify from 'devextreme/ui/notify';
@@ -24,6 +25,7 @@ import { Ingredient, IngredientService } from '../ingredient.service';
     DxTextBoxModule,
     DxButtonModule,
     DxDataGridModule,
+    DxSelectBoxModule,
     FormsModule,
     CommonModule,
   ],
@@ -37,6 +39,7 @@ export class ProductFormComponent implements OnInit {
   product: any = {};
   ingredients: any[] = [];
   labors: any[] = [];
+  units: string[] = [];
   allIngredients: Ingredient[] = [];
   productSvc = inject(ProductService);
   ingredientSvc = inject(IngredientService);
@@ -68,7 +71,43 @@ export class ProductFormComponent implements OnInit {
     });
   }
 
+  onFocusedCellChanged(e: any) {
+    if (e.column.dataField === 'unit') {
+      const ingredientId: number = e.row.data.ingredientID;
+      this.getUnits(ingredientId);
+    }
+  }
+
+  getUnits(id: number) {
+    this.units = [];
+    const ingredient = this.allIngredients.find((x) => x.ingredientID === id);
+    if (ingredient) {
+      if (ingredient.cups > 0) this.units.push('Cups');
+      if (ingredient.tbs > 0) this.units.push('Tbs');
+      if (ingredient.tsp > 0) this.units.push('Tsp');
+      if (ingredient.pieces > 0) this.units.push('Pieces');
+      if (ingredient.containers > 0) this.units.push('Containers');
+      if (ingredient.pounds > 0) this.units.push('Pounds');
+      if (ingredient.oz > 0) this.units.push('Oz');
+    }
+  }
+
+  getUnitDisplay = (rowData: any) => {
+    return rowData.unit ?? '';
+  };
+
   saveProduct() {
-    this.formSaved.emit();
+    this.product.ingredients = this.ingredients;
+    this.product.labors = this.labors;
+    this.productSvc.saveProduct(this.product).subscribe({
+      next: () => {
+        notify('product saved successfully', 'succes', 3000);
+        this.formSaved.emit();
+      },
+      error: (err) => {
+        console.error('Error saving product', err);
+        notify('Failed to save product', 'error', 4000);
+      },
+    });
   }
 }

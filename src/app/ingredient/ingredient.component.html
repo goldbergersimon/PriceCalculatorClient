@@ -2,7 +2,7 @@
     <dx-data-grid [dataSource]="ingredients" [showBorders]="true" [columnAutoWidth]="true" [allowColumnResizing]="false"
         [rowAlternationEnabled]="true" [paging]="{enabled: false}" loadingIndicator="{show: true}"
         [loadPanel]="{enabled: true, text: 'Loading...', showIndicator: true, showPane: true}"
-        [searchPanel]="{visible: true, highlightSearchText: true, width: 300, placeholder: 'Search ingredients...'}"
+        [searchPanel]="{visible: true, highlightSearchText: true, width: 500, placeholder: 'Search ingredients...'}"
         (onRowInserting)="onRowInserting($event)" (onEditorPreparing)="onEditorPreparing($event)"
         (onRowUpdating)="onRowUpdating($event)" (onRowRemoving)="onRowRemoving($event)">
         <dxo-editing mode="popup" [allowUpdating]="true" [allowAdding]="true" [allowDeleting]="true">
@@ -61,5 +61,12 @@
         <dxi-column dataField="oz" caption="Oz" [format]="{type: 'fixedPoint', precision:0}"></dxi-column>
         <dxi-column dataField="pricePerOz" caption="Price Per Oz"
             [format]="{type: 'currency', precision: 2}"></dxi-column>
+
+        <dxi-column type="buttons" width="110">
+            <dxi-button name="edit" icon="edit" hint="Edit"></dxi-button>
+            <dxi-button name="delete" icon="trash" hint="Delete"></dxi-button>
+        </dxi-column>
+
+
     </dx-data-grid>
 </div>
