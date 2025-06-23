@@ -12,7 +12,18 @@
     padding: 10px;
 }
 
-.dx-datagrid-headers .dx-header-row > td {
-    text-align: left !important;
-    padding-left: 12px;
+
+
+.tabs .dx-tabs-wrapper {
+    background-color: #ffffff;
 }
+
+.tabs .dx-tab {
+    color: rgb(255, 255, 255);
+}
+
+.tabs .dx-tab.dx-tab-selected {
+    background-color: #ffffff;
+    font-weight: bold;
+}
+

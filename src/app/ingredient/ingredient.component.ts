@@ -52,6 +52,7 @@ export class IngredientComponent implements OnInit {
         },
         error: (err) => {
           console.error('Error updating ingredient:', err);
+          notify('Ingredient not updated', 'error', 4000);
         },
       });
   }

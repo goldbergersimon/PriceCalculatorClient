@@ -1,5 +1,5 @@
-<form #form="ngForm" (ngSubmit)="saveProduct()">
-    <div class="product-form">
+<form class="product-form" #form="ngForm" (ngSubmit)="saveProduct()">
+    <div>
         <!--Header-->
         <div class="name">
             <label for="productName">Product Name</label>
@@ -68,20 +68,21 @@
             <table>
                 <tr>
                     <td>Yields by weight oz:</td>
-                    <td><input type="number" [(ngModel)]="product.oz" name="oz" /></td>
+                    <td><input type="number" [(ngModel)]="product.oz" name="oz" min="0" /></td>
                     <td>Ingredient Cost:</td>
                     <td>{{product.ingredientCost | currency}}</td>
 
                 </tr>
                 <tr>
                     <td>Yields by container:</td>
-                    <td><input type="number" [(ngModel)]="product.container" name="container" /></td>
+                    <td><input type="number" [(ngModel)]="product.container" name="container" min="0" />
+                    </td>
                     <td>Labor Cost:</td>
                     <td>{{product.laborCost | currency}}</td>
                 </tr>
                 <tr>
                     <td>Yields by pieces:</td>
-                    <td><input type="number" [(ngModel)]="product.pieces" name="pieces" /></td>
+                    <td><input type="number" [(ngModel)]="product.pieces" name="pieces" min="0" /></td>
                     <td><strong>Total Product Cost:</strong></td>
                     <td><strong>{{product.costPrice | currency}}</strong></td>
                 </tr>
