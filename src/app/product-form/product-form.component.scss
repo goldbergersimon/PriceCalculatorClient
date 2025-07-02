@@ -1,9 +1,9 @@
 .product-form {
     height: 850px;
     margin: 40px auto;
+    max-width: 1600px;
     padding: 20px;
     font-family: 'Segoe UI', sans-serif;
-    background-color: #f6f6f6;
     border: 1px solid #d0d0d0;
     border-radius: 6px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
@@ -83,7 +83,7 @@
 
 .save-button {
     text-align: center;
-    margin-top: 90px;
+    margin-top: 75px;
 
     ::ng-deep .dx-button {
         min-width: 100px;

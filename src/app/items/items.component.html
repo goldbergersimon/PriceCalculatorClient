@@ -1,6 +1,7 @@
 <div id="item-data-grid">
     <dx-data-grid [dataSource]="items" [showBorders]="true" [columnAutoWidth]="false" [allowColumnResizing]="false"
-        [rowAlternationEnabled]="true" [paging]="{enabled: false}"
+        [rowAlternationEnabled]="true" [paging]="{enabled: false}" loadingIndicator="{show: true}"
+        [loadPanel]="{enabled: true, text: 'Loading...', showIndicator: true, showPane: true}"
         [searchPanel]="{visible: true, highlightSearchText: true, width: 500, placeholder: 'Search items...'}"
         class="grid-bordered">
         <dxi-column dataField="itemName" caption="Name"></dxi-column>

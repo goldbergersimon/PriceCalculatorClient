@@ -7,11 +7,13 @@ import {
   Output,
   input,
   inject,
+  ViewChild,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import {
   DxButtonModule,
   DxDataGridModule,
+  DxNumberBoxModule,
   DxSelectBoxModule,
   DxTextBoxModule,
 } from 'devextreme-angular';
@@ -26,6 +28,7 @@ import { Ingredient, IngredientService } from '../ingredient.service';
     DxButtonModule,
     DxDataGridModule,
     DxSelectBoxModule,
+    DxNumberBoxModule,
     FormsModule,
     CommonModule,
   ],
@@ -43,6 +46,12 @@ export class ProductFormComponent implements OnInit {
   allIngredients: Ingredient[] = [];
   productSvc = inject(ProductService);
   ingredientSvc = inject(IngredientService);
+
+  durationEditorOptions = {
+    mask: '00:00:00',
+    maskRules: { '0': /[0-9]/ },
+    useMaskedValue: true,
+  };
 
   constructor() {}
 
@@ -96,12 +105,28 @@ export class ProductFormComponent implements OnInit {
     return rowData.unit ?? '';
   };
 
+  onRowInserted(e: any) {
+    const ingredient: any = e.data;
+    console.log('Calculating cost for ingredient:', ingredient);
+
+    this.productSvc.calculateIngredientCost(ingredient).subscribe({
+      next: (cost: number) => {
+        ingredient.totalCostPerItem = cost;
+        e.component.refresh();
+        console.log('Ingredient cost calculated:', cost);
+      },
+      error: (err: any) => {
+        console.error('Failed to calculate ingredient cost', err);
+      },
+    });
+  }
+
   saveProduct() {
     this.product.ingredients = this.ingredients;
     this.product.labors = this.labors;
     this.productSvc.saveProduct(this.product).subscribe({
       next: (savedProduct) => {
-        notify('product saved successfully', 'succes', 3000);
+        console.log('product saved succesfuly');
         this.formSaved.emit(savedProduct);
       },
       error: (err) => {

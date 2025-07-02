@@ -1,10 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { DxDataGridModule } from 'devextreme-angular/ui/data-grid';
+import { Component, inject, OnInit, viewChild } from '@angular/core';
+import {
+  DxDataGridComponent,
+  DxDataGridModule,
+} from 'devextreme-angular/ui/data-grid';
 import { IProduct, ProductService } from '../product.service';
 import notify from 'devextreme/ui/notify';
+import { confirm } from 'devextreme/ui/dialog';
 import { ProductFormComponent } from '../product-form/product-form.component';
-import { DxPopupModule } from 'devextreme-angular';
+import { DxButtonModule, DxPopupModule } from 'devextreme-angular';
 
 @Component({
   selector: 'app-products',
@@ -13,6 +17,7 @@ import { DxPopupModule } from 'devextreme-angular';
     CommonModule,
     DxDataGridModule,
     DxPopupModule,
+    DxButtonModule,
     ProductFormComponent,
   ],
   templateUrl: './products.component.html',
@@ -23,6 +28,7 @@ export class ProductsComponent implements OnInit {
   selectedProductId?: number;
   popupVisible: boolean = false;
   productSvc = inject(ProductService);
+  productGrid = viewChild<DxDataGridComponent>('productGrid');
 
   constructor() {}
 
@@ -36,16 +42,33 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  onEditingStart(e: any) {
-    e.cancel = true; // Prevent the default editing behavior
-    const id = e.data.productID;
-    this.openForm(id);
-  }
-
   openForm(productId?: number) {
     this.selectedProductId = productId;
     this.popupVisible = true;
-    console.log('Opening form for product ID:', productId);
+    console.log('opening form for product id', productId);
+  }
+
+  deletePorduct(productId: number) {
+    const result = confirm(
+      'Are you sure you want to delete this recipe?',
+      'Delete Confirmation'
+    );
+    result.then((dialugResult) => {
+      if (dialugResult) {
+        this.productSvc.deleteProduct(productId).subscribe({
+          next: () => {},
+          error: (err) => {
+            if (err.status === 400 && err.error?.message) {
+              notify(err.error.message, 'error', 3000);
+            } else if (err.status === 404) {
+              notify('recipe not found', 'error', 3000);
+            } else {
+              console.error('Failed to delete recipe');
+            }
+          },
+        });
+      }
+    });
   }
 
   onFormSaved(savedProduct: IProduct) {
@@ -54,15 +77,10 @@ export class ProductsComponent implements OnInit {
       (p) => p.productId === savedProduct.productId
     );
     if (index !== -1) {
-      this.products[index] = savedProduct;
+      this.products[index] = { ...savedProduct };
     } else {
       this.products.push(savedProduct);
     }
+    //this.productGrid()?.instance.refresh();
   }
-  onInitNewRow(e: any) {
-    e.cancel = true; // Prevent the default inserting behavior
-    this.openForm();
-  }
-
-  onRowRemoving(e: any) {}
 }

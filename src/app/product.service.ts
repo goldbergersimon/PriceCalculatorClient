@@ -63,7 +63,18 @@ export class ProductService {
     if (!product.productID) {
       return this.http.post<any>(this.apiUrl, product);
     } else {
-      return this.http.put<any>(`this.apiUrl/${product.productID}`, product);
+      return this.http.put<any>(`${this.apiUrl}/${product.productID}`, product);
     }
+  }
+
+  deleteProduct(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
+  }
+
+  calculateIngredientCost(ingredient: any): Observable<number> {
+    return this.http.post<number>(
+      `${this.apiUrl}/calculate-ingredient`,
+      ingredient
+    );
   }
 }
