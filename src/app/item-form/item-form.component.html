@@ -1,0 +1,175 @@
+<form class="item-form" #form="ngForm" (ngSubmit)="saveItem()">
+    <div>
+        <!--Header-->
+        <div class="name">
+            <label for="itemName">Item Name</label>
+            <dx-text-box name="itemName" [width]="'100%'" [(value)]="item.itemName" placeholder="Enter item name">
+                <dxi-validation-rule type="required" message="Item name is required"></dxi-validation-rule>
+            </dx-text-box>
+        </div>
+
+
+        <!--Grid area-->
+        <div class="grid-section">
+            <div class="stacked-grids">
+                <!--Ingredient Grid-->
+                <div class="grid-half">
+                    <h4>Ingredients</h4>
+                    <dx-data-grid [dataSource]="ingredients" [showBorders]="true" [columnAutoWidth]="false"
+                        [allowColumnResizing]="false" [rowAlternationEnabled]="true" [paging]="{ enabled: false }"
+                        [editing]="{ mode: 'row', allowUpdating: true, allowDeleting: true, allowAdding: true }"
+                        (onFocusedCellChanged)="onFocusedCellChangedI($event)"
+                        (onRowInserted)="onIngredientIserted($event)" (onRowUpdated)="onIngredientIserted($event)"
+                        (onRowRemoved)="onIngredientRemoved()">
+                        <dxi-column dataField="ingredientId" caption="Ingredient Name">
+                            <dxo-lookup [dataSource]="allIngredients" valueExpr="ingredientId"
+                                displayExpr="name"></dxo-lookup>
+                        </dxi-column>
+                        <dxi-column dataField="quantity" caption="Qty" dataType="number"></dxi-column>
+                        <dxi-column dataField="unit" caption="Unit">
+                            <dxo-lookup [dataSource]="ingredientUnits" displayExpr="" valueExpr=""></dxo-lookup>
+                        </dxi-column>
+                        <dxi-column dataField="yields" caption="Yields" dataType="number"></dxi-column>
+                        <dxi-column dataField="totalCostPerItem" caption="Total"
+                            [format]="{type: 'currency', precision: 2}" [allowEditing]="false"></dxi-column>
+
+                        <dxi-column type="buttons" width="110">
+                            <dxi-button name="edit" icon="edit" hint="Edit"></dxi-button>
+                            <dxi-button name="delete" icon="trash" hint="Delete"></dxi-button>
+                        </dxi-column>
+                    </dx-data-grid>
+                </div>
+                <!--Product Grid-->
+                <div class="grid-half">
+                    <h4>Recipes</h4>
+                    <dx-data-grid [dataSource]="products" [showBorders]="true" [columnAutoWidth]="false"
+                        [allowColumnResizing]="false" [rowAlternationEnabled]="true" [paging]="{ enabled: false }"
+                        [editing]="{ mode: 'row', allowUpdating: true, allowDeleting: true, allowAdding: true }"
+                        (onFocusedCellChanged)="onFocusedCellChangedP($event)"
+                        (onRowInserted)="onProductIserted($event)" (onRowUpdated)="onProductIserted($event)"
+                        (onRowRemoved)="onProductRemoved()">
+                        <dxi-column dataField="productId" caption="Recipe Name">
+                            <dxo-lookup [dataSource]="allProducts" valueExpr="productId"
+                                displayExpr="name"></dxo-lookup>
+                        </dxi-column>
+                        <dxi-column dataField="quantity" caption="Qty" dataType="number"></dxi-column>
+                        <dxi-column dataField="unit" caption="Unit">
+                            <dxo-lookup [dataSource]="productUnits" displayExpr="" valueExpr=""></dxo-lookup>
+                        </dxi-column>
+                        <dxi-column dataField="yields" caption="Yields" dataType="number"></dxi-column>
+                        <dxi-column dataField="total" caption="Total" [format]="{type: 'currency', precision: 2}"
+                            [allowEditing]="false"></dxi-column>
+
+                        <dxi-column type="buttons" width="110">
+                            <dxi-button name="edit" icon="edit" hint="Edit"></dxi-button>
+                            <dxi-button name="delete" icon="trash" hint="Delete"></dxi-button>
+                        </dxi-column>
+                    </dx-data-grid>
+                </div>
+
+            </div>
+
+
+
+
+            <!--Labor Grid-->
+            <div class="grid-half">
+                <h4>Labor</h4>
+                <dx-data-grid [dataSource]="labors" [showBorders]="true" [rowAlternationEnabled]="true"
+                    [paging]="{ enabled: false }"
+                    [editing]="{ mode: 'row', allowUpdating: true, allowDeleting: true, allowAdding: true }"
+                    (onRowInserted)="onLaborInserted($event)" (onRowUpdated)="onLaborInserted($event)"
+                    (onRowRemoved)="onLaborRemoved()">
+                    <dxi-column dataField="laborName" caption="Process Name">
+                        <dxi-validation-rule type="required" message="Process name is required"></dxi-validation-rule>
+                    </dxi-column>
+                    <dxi-column dataField="duration" caption="Time"
+                        [editorOptions]="durationEditorOptions"></dxi-column>
+                    <dxi-column dataField="workers" caption="# of workers" dataType="number"></dxi-column>
+                    <dxi-column dataField="yields" caption="Yields" dataType="number"></dxi-column>
+                    <dxi-column dataField="totalLaborPerItem" caption="Time per item"
+                        [calculateCellValue]="formatLaborTime" [allowEditing]="false"></dxi-column>
+
+                    <dxi-column type="buttons" width="110">
+                        <dxi-button name="edit" icon="edit" hint="Edit"></dxi-button>
+                        <dxi-button name="delete" icon="trash" hint="Delete"></dxi-button>
+                    </dxi-column>
+                </dx-data-grid>
+
+                <div class="summary">
+                    <div class="cost-summary">
+                        <table>
+                            <tr>
+                                <td><strong>Total Material Cost:</strong></td>
+                                <td>{{item.materialCost | currency }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Total Labor Cost:</strong></td>
+                                <td>{{item.laborCost | currency }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Office expenses:</strong></td>
+                                <td>{{item.officeExpenses | currency}}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Total Cost:</strong></td>
+                                <td>{{item.costPrice | currency}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="profit-margin">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Price</th>
+                                    <th>Selling</th>
+                                    <th>Profit</th>
+                                    <th>Margin</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Retail</strong></td>
+                                    <td>{{item.retailPrice | currency}}</td>
+                                    <td>{{item.retailProfit | currency}}</td>
+                                    <td>
+                                        <dx-number-box class="number-box" [(value)]="item.retailMargin"
+                                            name="retailMargin" [min]="0" [showSpinButtons]="false"
+                                            (onValueChanged)="onRetailChanged($event)"></dx-number-box>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Wholesale</strong></td>
+                                    <td>{{item.wholesalePrice | currency}}</td>
+                                    <td>{{item.wholesaleProfit | currency}}</td>
+                                    <td>
+                                        <dx-number-box class="number-box" [(value)]="item.wholesaleMargin"
+                                            name="wholesaleMargin" [min]="0" [showSpinButtons]="false"
+                                            (onValueChanged)="onWholesaleChanged($event)"></dx-number-box>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Your own price</strong></td>
+                                    <td>
+                                        <dx-number-box class="number-box" [(value)]="item.ownPrice" name="ownPrice"
+                                            [min]="0" [showSpinButtons]="false"
+                                            [format]="{ type: 'currency', precision: 2 }"
+                                            (onValueChanged)="onOwnChanged($event)"></dx-number-box>
+                                    </td>
+                                    <td>{{item.ownProfit | currency}}</td>
+                                    <td>{{item.ownMargin | number: '1.0-0'}}%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--Save-button-->
+        <div class="save-button">
+            <dx-button text="Save" type="success" [useSubmitBehavior]="true"></dx-button>
+        </div>
+    </div>
+</form>

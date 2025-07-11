@@ -1,18 +1,8 @@
 <div id="product-data-grid">
-    <dx-data-grid #productGrid [dataSource]="products" [showBorders]="true" [columnAutoWidth]="false"
-        [allowColumnResizing]="false" [rowAlternationEnabled]="true"
+    <dx-data-grid [dataSource]="products" [showBorders]="true" [columnAutoWidth]="false" [allowColumnResizing]="false"
+        [rowAlternationEnabled]="true"
         [searchPanel]="{visible: true, highlightSearchText: true, width: 500, placeholder: 'Search recipes...'}"
         class="grid-bordered" (onFocusedRowChanged)="selectedProductId = $event.row?.data.productId">
-        <!-- <dxo-editing mode="popup" [allowAdding]="false" [allowUpdating]="false" [allowDeleting]="false">
-            <dxo-popup [toolbarItems]="[]" [showCloseButton]="true" [width]=" 1650" [height]="'auto'" [showTitle]="true"
-                title="Edit Recipe" contentTemplate="productForm">
-                <div *dxTemplate="let data of 'productForm'">
-                    <app-product-form [productId]="selectedProductId"
-                        (formSaved)="onFormSaved($event)"></app-product-form>
-                </div>
-            </dxo-popup>
-        </dxo-editing> -->
-
         <dxo-toolbar>
             <dxi-item>
                 <dx-button icon="add" stylingMode="text" (click)="openForm()"></dx-button>
@@ -30,8 +20,8 @@
         <dxi-column width="110" cellTemplate="buttonsTemplate"></dxi-column>
 
         <div *dxTemplate="let data of 'buttonsTemplate'">
-            <dx-button icon="edit" stylingMode="text" (click)="openForm(data.data.productID)"></dx-button>
-            <dx-button icon="trash" stylingMode="text" (click)="deletePorduct(data.data.productID)"></dx-button>
+            <dx-button icon="edit" stylingMode="text" (click)="openForm(data.data.productId)"></dx-button>
+            <dx-button icon="trash" stylingMode="text" (click)="deletePorduct(data.data.productId)"></dx-button>
         </div>
     </dx-data-grid>
 </div>

@@ -1,9 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, viewChild } from '@angular/core';
-import {
-  DxDataGridComponent,
-  DxDataGridModule,
-} from 'devextreme-angular/ui/data-grid';
+import { Component, inject, OnInit } from '@angular/core';
+import { DxDataGridModule } from 'devextreme-angular/ui/data-grid';
 import { IProduct, ProductService } from '../product.service';
 import notify from 'devextreme/ui/notify';
 import { confirm } from 'devextreme/ui/dialog';
@@ -21,14 +18,13 @@ import { DxButtonModule, DxPopupModule } from 'devextreme-angular';
     ProductFormComponent,
   ],
   templateUrl: './products.component.html',
-  styleUrl: './products.component.scss',
+  styleUrls: ['./products.component.scss'],
 })
 export class ProductsComponent implements OnInit {
   products: IProduct[] = [];
   selectedProductId?: number;
   popupVisible: boolean = false;
   productSvc = inject(ProductService);
-  productGrid = viewChild<DxDataGridComponent>('productGrid');
 
   constructor() {}
 
@@ -36,8 +32,8 @@ export class ProductsComponent implements OnInit {
     this.productSvc.getProducts().subscribe({
       next: (data) => (this.products = data),
       error: (err) => {
-        console.error('Faild to load products', err);
-        notify('Faild to load products', 'error', 4000);
+        console.error('Faild to load recipes', err);
+        notify('Faild to load recipes', 'error', 4000);
       },
     });
   }
@@ -48,7 +44,7 @@ export class ProductsComponent implements OnInit {
     console.log('opening form for product id', productId);
   }
 
-  deletePorduct(productId: number) {
+  deletePorduct(productId: number): void {
     const result = confirm(
       'Are you sure you want to delete this recipe?',
       'Delete Confirmation'
@@ -56,7 +52,11 @@ export class ProductsComponent implements OnInit {
     result.then((dialugResult) => {
       if (dialugResult) {
         this.productSvc.deleteProduct(productId).subscribe({
-          next: () => {},
+          next: () => {
+            this.products = this.products.filter(
+              (p) => p.productId !== productId
+            );
+          },
           error: (err) => {
             if (err.status === 400 && err.error?.message) {
               notify(err.error.message, 'error', 3000);
@@ -71,7 +71,7 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  onFormSaved(savedProduct: IProduct) {
+  onFormSaved(savedProduct: IProduct): void {
     this.popupVisible = false;
     const index = this.products.findIndex(
       (p) => p.productId === savedProduct.productId
@@ -81,6 +81,5 @@ export class ProductsComponent implements OnInit {
     } else {
       this.products.push(savedProduct);
     }
-    //this.productGrid()?.instance.refresh();
   }
 }

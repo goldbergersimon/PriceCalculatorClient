@@ -60,10 +60,10 @@ export class ProductService {
   }
 
   saveProduct(product: any): Observable<any> {
-    if (!product.productID) {
+    if (!product.productId) {
       return this.http.post<any>(this.apiUrl, product);
     } else {
-      return this.http.put<any>(`${this.apiUrl}/${product.productID}`, product);
+      return this.http.put<any>(`${this.apiUrl}/${product.productId}`, product);
     }
   }
 
@@ -75,6 +75,24 @@ export class ProductService {
     return this.http.post<number>(
       `${this.apiUrl}/calculate-ingredient`,
       ingredient
+    );
+  }
+
+  calculateLabor(labor: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/calculate-labor`, labor);
+  }
+
+  calculateTotalIngredientCost(totals: number[]): Observable<number> {
+    return this.http.post<number>(
+      `${this.apiUrl}/calculate-total-ingredient-cost`,
+      totals
+    );
+  }
+
+  calculateTotalLaborCost(labors: any): Observable<number> {
+    return this.http.post<number>(
+      `${this.apiUrl}/calculate-total-labor-cost`,
+      labors
     );
   }
 }

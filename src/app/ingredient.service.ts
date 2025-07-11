@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 export interface Ingredient {
-  ingredientID: number;
+  ingredientId: number;
   name: string;
   totalCost: number;
   cups: number;
@@ -49,10 +49,24 @@ export class IngredientService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
-  convertBetweenMeasures(cups: number): { tbs: number; tsp: number } {
-    const tbs = cups > 0 ? cups * 16 : 0;
-    const tsp = cups > 0 ? cups * 48 : 0;
-    return { tbs, tsp };
+  convertBetweenMeasures(
+    measure: string,
+    amount: number
+  ): { result1: number; result2: number } {
+    if (measure === 'cups' && amount > 0) {
+      const tbs = amount * 16; // 1 cup = 16 tablespoons
+      const tsp = amount * 48; // 1 cup = 48 teaspoons
+      return { result1: tbs, result2: tsp };
+    } else if (measure === 'tbs' && amount > 0) {
+      const cups = amount / 16; // 1 tablespoon = 1/16 cup
+      const tsp = amount * 3; // 1 tablespoon = 3 teaspoons
+      return { result1: cups, result2: tsp };
+    } else if (measure === 'tsp' && amount > 0) {
+      const cups = amount / 48; // 1 teaspoon = 1/48 cup
+      const tbs = amount / 3; // 1 teaspoon = 1/3 tablespoon
+      return { result1: cups, result2: tbs };
+    }
+    return { result1: 0, result2: 0 };
   }
 
   calculatePricePer(price: number, measure: number): number {

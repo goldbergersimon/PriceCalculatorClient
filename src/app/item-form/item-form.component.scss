@@ -1,0 +1,131 @@
+.product-form {
+    height: 850px;
+    margin: 40px auto;
+    max-width: 1600px;
+    padding: 20px;
+    font-family: 'Segoe UI', sans-serif;
+    border: 1px solid #d0d0d0;
+    border-radius: 6px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+}
+
+.name {
+    margin: 0 auto 20px auto;
+    width: 40%;
+
+    label {
+        font-weight: 600;
+        margin-bottom: 6px;
+        display: block;
+        padding-left: 6px;
+    }
+}
+
+.grid-section {
+    display: flex;
+    gap: 16px;
+    //margin-bottom: 20px;
+    //justify-content: space-between;
+    //height: 50%;
+}
+
+.stacked-grids {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;
+}
+
+.grid-half {
+    flex: 1;
+    min-width: 400px;
+    h4 {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+        padding-left: 6px;
+    }
+            ::ng-deep .dx-datagrid {
+            height: 375px;
+            border-radius: 4px;
+            border: 1px solid #c0c0c0;
+            font-size: 13px;
+        }
+}
+
+.summary {
+    margin: 40px auto 20px auto;
+    padding: 0 20px;
+    width: 100%;
+    max-width: 600px;
+    font-size: 14px;
+}
+
+.cost-summary > table > tr > td {
+    text-align: left;
+    padding-left: 10px;
+}
+
+.cost-summary, .profit-margin {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fafafa;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    margin-bottom: 24px;
+    overflow: hidden;
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+
+        th, td {
+            padding: 10px 16px;
+            border-bottom: 1px solid #e0e0e0;
+            text-align: center;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        th {
+            background-color: #f9f9f9;
+            font-weight: 600;
+        }
+    }
+}
+
+.number-box {
+    ::ng-deep .dx-texteditor-input {
+        padding: 10px 12px;
+        font-size: 14px;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        height: auto;
+        color: inherit;
+    }
+
+    ::ng-deep .dx-texteditor-container {
+        border: none !important;
+        background-color: transparent !important;
+        box-shadow: none !important;
+        height: auto;
+    }
+    ::ng-deep .dx-numberbox-spin-button {
+        display: none;
+    }
+}
+
+
+
+.save-button {
+    text-align: center;
+    margin-top: 75px;
+
+    ::ng-deep .dx-button {
+        min-width: 100px;
+        background-color: #4caf50;
+        color: white;
+    }
+}

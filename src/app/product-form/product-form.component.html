@@ -17,9 +17,10 @@
                 <dx-data-grid [dataSource]="ingredients" [showBorders]="true" [columnAutoWidth]="false"
                     [allowColumnResizing]="false" [rowAlternationEnabled]="true" [paging]="{ enabled: false }"
                     [editing]="{ mode: 'row', allowUpdating: true, allowDeleting: true, allowAdding: true }"
-                    (onFocusedCellChanged)="onFocusedCellChanged($event)" (onRowInserted)="onRowInserted($event)">
-                    <dxi-column dataField="ingredientID" caption="Ingredient Name">
-                        <dxo-lookup [dataSource]="allIngredients" valueExpr="ingredientID"
+                    (onFocusedCellChanged)="onFocusedCellChanged($event)" (onRowInserted)="onIngredientIserted($event)"
+                    (onRowUpdated)="onIngredientIserted($event)" (onRowRemoved)="onIngredientRemoved()">
+                    <dxi-column dataField="ingredientId" caption="Ingredient Name">
+                        <dxo-lookup [dataSource]="allIngredients" valueExpr="ingredientId"
                             displayExpr="name"></dxo-lookup>
                     </dxi-column>
                     <dxi-column dataField="quantity" caption="Qty" dataType="number"></dxi-column>
@@ -43,7 +44,9 @@
                 <h4>Labor</h4>
                 <dx-data-grid [dataSource]="labors" [showBorders]="true" [rowAlternationEnabled]="true"
                     [paging]="{ enabled: false }"
-                    [editing]="{ mode: 'row', allowUpdating: true, allowDeleting: true, allowAdding: true }">
+                    [editing]="{ mode: 'row', allowUpdating: true, allowDeleting: true, allowAdding: true }"
+                    (onRowInserted)="onLaborInserted($event)" (onRowUpdated)="onLaborInserted($event)"
+                    (onRowRemoved)="onLaborRemoved()">
                     <dxi-column dataField="laborName" caption="Process Name">
                         <dxi-validation-rule type="required" message="Process name is required"></dxi-validation-rule>
                     </dxi-column>
@@ -51,8 +54,8 @@
                         [editorOptions]="durationEditorOptions"></dxi-column>
                     <dxi-column dataField="workers" caption="# of workers" dataType="number"></dxi-column>
                     <dxi-column dataField="yields" caption="Yields" dataType="number"></dxi-column>
-                    <dxi-column dataField="totalLaborPerItem" caption="Time per item" dataType="datetime"
-                        format="HH:mm:ss" [allowEditing]="false"></dxi-column>
+                    <dxi-column dataField="totalLaborPerItem" caption="Time per item"
+                        [calculateCellValue]="formatLaborTime" [allowEditing]="false"></dxi-column>
 
                     <dxi-column type="buttons" width="110">
                         <dxi-button name="edit" icon="edit" hint="Edit"></dxi-button>

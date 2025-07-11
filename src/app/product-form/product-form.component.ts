@@ -7,9 +7,8 @@ import {
   Output,
   input,
   inject,
-  ViewChild,
 } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import {
   DxButtonModule,
   DxDataGridModule,
@@ -53,6 +52,13 @@ export class ProductFormComponent implements OnInit {
     useMaskedValue: true,
   };
 
+  formatLaborTime = (rowData: any): string => {
+    const rew: string = rowData.totalLaborPerItem;
+    if (!rew) return '00:00:00';
+
+    return rew.split('.')[0];
+  };
+
   constructor() {}
 
   ngOnInit(): void {
@@ -82,14 +88,14 @@ export class ProductFormComponent implements OnInit {
 
   onFocusedCellChanged(e: any) {
     if (e.column.dataField === 'unit') {
-      const ingredientId: number = e.row.data.ingredientID;
+      const ingredientId: number = e.row.data.ingredientId;
       this.getUnits(ingredientId);
     }
   }
 
   getUnits(id: number) {
     this.units = [];
-    const ingredient = this.allIngredients.find((x) => x.ingredientID === id);
+    const ingredient = this.allIngredients.find((x) => x.ingredientId === id);
     if (ingredient) {
       if (ingredient.cups > 0) this.units.push('Cups');
       if (ingredient.tbs > 0) this.units.push('Tbs');
@@ -105,20 +111,45 @@ export class ProductFormComponent implements OnInit {
     return rowData.unit ?? '';
   };
 
-  onRowInserted(e: any) {
+  onIngredientIserted(e: any): void {
     const ingredient: any = e.data;
-    console.log('Calculating cost for ingredient:', ingredient);
 
     this.productSvc.calculateIngredientCost(ingredient).subscribe({
       next: (cost: number) => {
         ingredient.totalCostPerItem = cost;
         e.component.refresh();
-        console.log('Ingredient cost calculated:', cost);
+
+        this.calculateTotalIngredientCost();
       },
       error: (err: any) => {
         console.error('Failed to calculate ingredient cost', err);
       },
     });
+  }
+
+  onIngredientRemoved(): void {
+    this.calculateTotalIngredientCost();
+    this.calculateTotal();
+  }
+
+  onLaborInserted(e: any): void {
+    const labor = e.data;
+    this.productSvc.calculateLabor(labor).subscribe({
+      next: (result: any) => {
+        labor.totalLaborPerItem = result;
+        e.component.refresh();
+
+        this.calculateTotalLaborCost();
+      },
+      error: (err: any) => {
+        console.error('Failed to calculate labor cost', err);
+      },
+    });
+  }
+
+  onLaborRemoved(): void {
+    this.calculateTotalLaborCost();
+    this.calculateTotal();
   }
 
   saveProduct() {
@@ -134,5 +165,45 @@ export class ProductFormComponent implements OnInit {
         notify('Failed to save product', 'error', 4000);
       },
     });
+  }
+
+  calculateTotalIngredientCost(): void {
+    const totals: number[] = this.ingredients
+      .map((i) => i.totalCostPerItem)
+      .filter((cost) => typeof cost === 'number');
+
+    this.productSvc.calculateTotalIngredientCost(totals).subscribe({
+      next: (total: number) => {
+        this.product.ingredientCost = total;
+
+        this.calculateTotal();
+      },
+      error: (err: any) => {
+        console.error('Failed to calculate total ingredient cost', err);
+      },
+    });
+  }
+
+  calculateTotalLaborCost(): void {
+    const labors = this.labors.map((row) => ({
+      workers: row.workers,
+      totalLaborPerItem: row.totalLaborPerItem,
+    }));
+    this.productSvc.calculateTotalLaborCost(labors).subscribe({
+      next: (total: number) => {
+        this.product.laborCost = total;
+
+        this.calculateTotal();
+      },
+      error: (err: any) => {
+        console.error('Failed to calculate total labor cost', err);
+      },
+    });
+  }
+
+  calculateTotal(): void {
+    this.product.costPrice =
+      (this.product.ingredientCost ?? 0) + (this.product.laborCost ?? 0);
+    console.log('Total cost calculated:', this.product.costPrice);
   }
 }

@@ -44,7 +44,7 @@ export class IngredientComponent implements OnInit {
     const updatedData: Ingredient = { ...e.oldData, ...e.newData };
 
     this.ingredientSvc
-      .updateIngredient(updatedData.ingredientID, updatedData)
+      .updateIngredient(updatedData.ingredientId, updatedData)
       .subscribe({
         next: (result) => {
           console.log('Ingredient updated successfully', result);
@@ -59,7 +59,7 @@ export class IngredientComponent implements OnInit {
 
   onRowRemoving(e: any) {
     e.cancel = true; // Prevent the default delete action
-    this.ingredientSvc.deleteIngredient(e.data.ingredientID).subscribe({
+    this.ingredientSvc.deleteIngredient(e.data.ingredientId).subscribe({
       next: () => {
         console.log('Ingredient deleted successfully');
         notify('Ingredient deleted successfully', 'success', 3000);
@@ -79,7 +79,7 @@ export class IngredientComponent implements OnInit {
 
   onEditorPreparing(e: any) {
     if (e.dataField === 'name' && e.parentType === 'dataRow') {
-      const isExistingIngredient = !!e.row?.data?.ingredientID;
+      const isExistingIngredient = !!e.row?.data?.ingredientId;
       if (isExistingIngredient) {
         e.editorOptions.disabled = true; // Disable editing for existing ingredients
       }
@@ -113,17 +113,35 @@ export class IngredientComponent implements OnInit {
           +e.component.cellValue(rowIndex, field) || 0;
         const round = (value: number) => Math.round(value * 100) / 100;
 
+        const editField = e.dataField;
+        const value = get(editField);
+
+        // Calculate tbs & tsp from cups
+        if (editField === 'cups') {
+          const { result1: tbs, result2: tsp } =
+            this.ingredientSvc.convertBetweenMeasures('cups', value);
+          e.component.cellValue(rowIndex, 'tbs', round(tbs));
+          e.component.cellValue(rowIndex, 'tsp', round(tsp));
+        } else if (editField === 'tbs') {
+          const { result1: cups, result2: tsp } =
+            this.ingredientSvc.convertBetweenMeasures('tbs', value);
+          e.component.cellValue(rowIndex, 'cups', round(cups));
+          e.component.cellValue(rowIndex, 'tsp', round(tsp));
+        } else if (editField === 'tsp') {
+          const { result1: cups, result2: tbs } =
+            this.ingredientSvc.convertBetweenMeasures('tsp', value);
+          e.component.cellValue(rowIndex, 'cups', round(cups));
+          e.component.cellValue(rowIndex, 'tbs', round(tbs));
+        }
+
         const totalCost: number = get('totalCost');
         const cups: number = get('cups');
+        const tbs: number = get('tbs');
+        const tsp: number = get('tsp');
         const pieces: number = get('pieces');
         const containers: number = get('containers');
         const pounds: number = get('pounds');
         const oz: number = get('oz');
-
-        // Calculate tbs & tsp from cups
-        const { tbs, tsp } = this.ingredientSvc.convertBetweenMeasures(cups);
-        e.component.cellValue(rowIndex, 'tbs', round(tbs));
-        e.component.cellValue(rowIndex, 'tsp', round(tsp));
 
         // Calculate price per cup, tbs, tsp, piece, container, pound, and oz
         e.component.cellValue(

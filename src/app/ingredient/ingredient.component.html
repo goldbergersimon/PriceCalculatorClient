@@ -14,27 +14,25 @@
                 <dxi-item dataField="totalCost" [editorOptions]="{format:{type:'currency', precision:2}}"></dxi-item>
                 <dxi-item dataField="cups" [editorOptions]="{format:{type:'fixedPoint', precision:2}}"></dxi-item>
                 <dxi-item dataField="pricePerCup"
-                    [editorOptions]="{disabled:true, format:{type:'currency', precision:2}}"></dxi-item>
-                <dxi-item dataField="tbs"
-                    [editorOptions]="{ disabled: true, format:{type:'fixedPoint', precision:0}}"></dxi-item>
+                    [editorOptions]="{readOnly: true,inputAttr: {class: 'no-gray'}, format:{type:'currency', precision:2}}"></dxi-item>
+                <dxi-item dataField="tbs" [editorOptions]="{format:{type:'fixedPoint', precision:0}}"></dxi-item>
                 <dxi-item dataField="pricePerTbs"
-                    [editorOptions]="{disabled:true, format:{type:'currency', precision:2}}"></dxi-item>
-                <dxi-item dataField="tsp"
-                    [editorOptions]="{ disabled: true, format:{type:'fixedPoint', precision:0}}"></dxi-item>
+                    [editorOptions]="{readOnly: true , inputAttr: {class: 'no-gray'}, format:{type:'currency', precision:2}}"></dxi-item>
+                <dxi-item dataField="tsp" [editorOptions]="{ format:{type:'fixedPoint', precision:0}}"></dxi-item>
                 <dxi-item dataField="pricePerTsp"
-                    [editorOptions]="{disabled: true, format:{type:'currency', precision:2}}"></dxi-item>
+                    [editorOptions]="{readOnly: true, inputAttr: {class: 'no-gray'}, format:{type:'currency', precision:2}}"></dxi-item>
                 <dxi-item dataField="pieces" [editorOptions]="{format:{type:'fixedPoint', precision:0}}"></dxi-item>
                 <dxi-item dataField="pricePerPiece"
-                    [editorOptions]="{disabled:true, format:{type:'currency', precision:2}}"></dxi-item>
+                    [editorOptions]="{readOnly: true, inputAttr: {class: 'no-gray'}, format:{type:'currency', precision:2}}"></dxi-item>
                 <dxi-item dataField="containers" [editorOptions]="{format:{type:'fixedPoint', precision:0}}"></dxi-item>
                 <dxi-item dataField="pricePerContainer"
-                    [editorOptions]="{disabled: true, format:{type:'currency', precision:2}}"></dxi-item>
+                    [editorOptions]="{readOnly: true, inputAttr: {class: 'no-gray'}, format:{type:'currency', precision:2}}"></dxi-item>
                 <dxi-item dataField="pounds" [editorOptions]="{format:{type:'fixedPoint', precision:2}}"></dxi-item>
                 <dxi-item dataField="pricePerPound"
-                    [editorOptions]="{disabled:true, format:{type:'currency', precision:2}}"></dxi-item>
+                    [editorOptions]="{readOnly: true, inputAttr: {class: 'no-gray'}, format:{type:'currency', precision:2}}"></dxi-item>
                 <dxi-item dataField="oz" [editorOptions]="{format:{type:'fixedPoint', precision:0}}"></dxi-item>
                 <dxi-item dataField="pricePerOz"
-                    [editorOptions]="{disabled:true, format:{type:'currency', precision:2}}"></dxi-item>
+                    [editorOptions]="{readOnly: true, inputAttr: {class: 'no-gray'}, format:{type:'currency', precision:2}}"></dxi-item>
             </dxo-form>
         </dxo-editing>
         <dxi-column dataField="name" caption="Name"></dxi-column>

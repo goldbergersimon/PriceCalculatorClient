@@ -4,6 +4,12 @@
         [loadPanel]="{enabled: true, text: 'Loading...', showIndicator: true, showPane: true}"
         [searchPanel]="{visible: true, highlightSearchText: true, width: 500, placeholder: 'Search items...'}"
         class="grid-bordered">
+        <dxo-toolbar>
+            <dxi-item>
+                <dx-button icon="add" stylingMode="text" (click)="openForm()"></dx-button>
+            </dxi-item>
+            <dxi-item name="searchPanel"></dxi-item>
+        </dxo-toolbar>
         <dxi-column dataField="itemName" caption="Name"></dxi-column>
         <dxi-column dataField="costPrice" caption="Cost Price" [format]="{type: 'currency', precision: 2}"></dxi-column>
         <dxi-column dataField="ownPrice" caption="Own Price" [format]="{type: 'currency', precision: 2}"></dxi-column>
@@ -11,5 +17,21 @@
             [format]="{type: 'currency', precision: 2}"></dxi-column>
         <dxi-column dataField="retailPrice" caption="Retail Price"
             [format]="{type: 'currency', precision: 2}"></dxi-column>
+
+        <dxi-column width="110" cellTemplate="buttonsTemplate"></dxi-column>
+
+        <div *dxTemplate="let data of 'buttonsTemplate'">
+            <dx-button icon="edit" stylingMode="text" (click)="openForm(data.data.itemId)"></dx-button>
+            <dx-button icon="trash" stylingMode="text" (click)="deleteItem(data.data.itemId)"></dx-button>
+        </div>
     </dx-data-grid>
 </div>
+
+<dx-popup [visible]="popupVisible" [showTitle]="true" title="Edit Item" [showCloseButton]="true" [dragEnabled]="true"
+    [width]="1650" [height]="'auto'" (onHiding)="popupVisible = false">
+    <ng-container>
+        @if(popupVisible){
+        <app-item-form [itemId]="selectedItemId" (formSaved)="onFormSaved($event)"></app-item-form>
+        }
+    </ng-container>
+</dx-popup>
