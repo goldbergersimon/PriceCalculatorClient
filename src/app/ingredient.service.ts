@@ -14,8 +14,6 @@ export interface Ingredient {
   pricePerTsp: number;
   pieces: number;
   pricePerPiece: number;
-  containers: number;
-  pricePerContainer: number;
   pounds: number;
   pricePerPound: number;
   oz: number;

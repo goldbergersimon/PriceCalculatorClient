@@ -3,7 +3,8 @@
         <!--Header-->
         <div class="name">
             <label for="itemName">Item Name</label>
-            <dx-text-box name="itemName" [width]="'100%'" [(value)]="item.itemName" placeholder="Enter item name">
+            <dx-text-box #itemName name="itemName" [width]="'100%'" [(value)]="item.itemName"
+                placeholder="Enter item name">
                 <dxi-validation-rule type="required" message="Item name is required"></dxi-validation-rule>
             </dx-text-box>
         </div>

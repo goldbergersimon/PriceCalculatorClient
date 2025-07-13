@@ -101,7 +101,6 @@ export class ProductFormComponent implements OnInit {
       if (ingredient.tbs > 0) this.units.push('Tbs');
       if (ingredient.tsp > 0) this.units.push('Tsp');
       if (ingredient.pieces > 0) this.units.push('Pieces');
-      if (ingredient.containers > 0) this.units.push('Containers');
       if (ingredient.pounds > 0) this.units.push('Pounds');
       if (ingredient.oz > 0) this.units.push('Oz');
     }
@@ -129,7 +128,6 @@ export class ProductFormComponent implements OnInit {
 
   onIngredientRemoved(): void {
     this.calculateTotalIngredientCost();
-    this.calculateTotal();
   }
 
   onLaborInserted(e: any): void {
@@ -149,7 +147,6 @@ export class ProductFormComponent implements OnInit {
 
   onLaborRemoved(): void {
     this.calculateTotalLaborCost();
-    this.calculateTotal();
   }
 
   saveProduct() {

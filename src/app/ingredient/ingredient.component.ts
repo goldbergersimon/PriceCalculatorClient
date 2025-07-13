@@ -81,32 +81,23 @@ export class IngredientComponent implements OnInit {
     if (e.dataField === 'name' && e.parentType === 'dataRow') {
       const isExistingIngredient = !!e.row?.data?.ingredientId;
       if (isExistingIngredient) {
-        e.editorOptions.disabled = true; // Disable editing for existing ingredients
+        e.editorOptions.readOnly = true; // Disable editing for existing ingredients
       }
     }
 
     if (
       e.parentType === 'dataRow' &&
-      [
-        'cups',
-        'tbs',
-        'tsp',
-        'pieces',
-        'containers',
-        'pounds',
-        'oz',
-        'totalCost',
-      ].includes(e.dataField)
+      ['cups', 'tbs', 'tsp', 'pieces', 'pounds', 'oz', 'totalCost'].includes(
+        e.dataField
+      )
     ) {
       const originalOnValueChanged = e.editorOptions.onValueChanged;
       e.editorOptions.onValueChanged = (args: any) => {
         if (originalOnValueChanged) originalOnValueChanged(args);
 
-        const rowIndex = e.component
-          .getVisibleRows()
-          .find(
-            (r: any) => r.rowType === 'insert' || r.rowType === 'data'
-          )?.rowIndex;
+        const rowIndex = e.row?.rowIndex;
+        // If rowIndex is undefined, it means the row is not yet rendered or is being edited,
+        // so we should not proceed with calculations.
         if (rowIndex === undefined) return;
 
         const get = (field: string) =>
@@ -139,7 +130,6 @@ export class IngredientComponent implements OnInit {
         const tbs: number = get('tbs');
         const tsp: number = get('tsp');
         const pieces: number = get('pieces');
-        const containers: number = get('containers');
         const pounds: number = get('pounds');
         const oz: number = get('oz');
 
@@ -163,11 +153,6 @@ export class IngredientComponent implements OnInit {
           rowIndex,
           'pricePerPiece',
           round(this.ingredientSvc.calculatePricePer(totalCost, pieces))
-        );
-        e.component.cellValue(
-          rowIndex,
-          'pricePerContainer',
-          round(this.ingredientSvc.calculatePricePer(totalCost, containers))
         );
         e.component.cellValue(
           rowIndex,

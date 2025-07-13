@@ -24,9 +24,6 @@
                 <dxi-item dataField="pieces" [editorOptions]="{format:{type:'fixedPoint', precision:0}}"></dxi-item>
                 <dxi-item dataField="pricePerPiece"
                     [editorOptions]="{readOnly: true, inputAttr: {class: 'no-gray'}, format:{type:'currency', precision:2}}"></dxi-item>
-                <dxi-item dataField="containers" [editorOptions]="{format:{type:'fixedPoint', precision:0}}"></dxi-item>
-                <dxi-item dataField="pricePerContainer"
-                    [editorOptions]="{readOnly: true, inputAttr: {class: 'no-gray'}, format:{type:'currency', precision:2}}"></dxi-item>
                 <dxi-item dataField="pounds" [editorOptions]="{format:{type:'fixedPoint', precision:2}}"></dxi-item>
                 <dxi-item dataField="pricePerPound"
                     [editorOptions]="{readOnly: true, inputAttr: {class: 'no-gray'}, format:{type:'currency', precision:2}}"></dxi-item>
@@ -48,10 +45,6 @@
             [format]="{type: 'currency', precision: 2}"></dxi-column>
         <dxi-column dataField="pieces" caption="Pieces" [format]="{type: 'fixedPoint', precision:0}"></dxi-column>
         <dxi-column dataField="pricePerPiece" caption="Price Per piece"
-            [format]="{type: 'currency', precision: 2}"></dxi-column>
-        <dxi-column dataField="containers" caption="Containers"
-            [format]="{type: 'fixedPoint', precision:0}"></dxi-column>
-        <dxi-column dataField="pricePerContainer" caption="Price Per Container"
             [format]="{type: 'currency', precision: 2}"></dxi-column>
         <dxi-column dataField="pounds" caption="Pounds" [format]="{type: 'fixedPoint', precision: 2}"></dxi-column>
         <dxi-column dataField="pricePerPound" caption="Price Per Pound"

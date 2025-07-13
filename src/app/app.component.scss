@@ -3,3 +3,14 @@
     font-weight: bold;
     color: black;
 }
+
+.headers {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.settings-button {
+    margin-right: 20px;
+    margin-left: 20px;
+    color: black;
+}

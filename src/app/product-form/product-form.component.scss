@@ -1,12 +1,24 @@
 .product-form {
-    height: 850px;
-    margin: 40px auto;
-    max-width: 1600px;
-    padding: 20px;
-    font-family: 'Segoe UI', sans-serif;
-    border: 1px solid #d0d0d0;
-    border-radius: 6px;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+    //height: 850px;
+    //margin: 40px auto;
+    //max-width: 1600px;
+    //padding: 20px;
+    //font-family: 'Segoe UI', sans-serif;
+    //border: 1px solid #d0d0d0;
+    //border-radius: 6px;
+    //box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+
+
+      height: 100%;     /* Use full height of popup */
+  width: 100%;      /* Use full width of popup */
+  margin: 0;        /* Remove margin */
+  padding: 20px;
+  box-sizing: border-box;
+
+  font-family: 'Segoe UI', sans-serif;
+  border: none;     /* Remove border if not needed */
+  border-radius: 0; /* Optional: square corners */
+  box-shadow: none; /* Optional: remove shadow */
 }
 
 .name {
@@ -39,7 +51,7 @@
         padding-left: 6px;
     }
             ::ng-deep .dx-datagrid {
-            height: 375px;
+            height: 308px;
             border-radius: 4px;
             border: 1px solid #c0c0c0;
             font-size: 13px;

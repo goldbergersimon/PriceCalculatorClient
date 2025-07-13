@@ -149,7 +149,6 @@ export class ItemFormComponent implements OnInit {
       },
     });
   }
-  onProductRemoved(): void {}
   onIngredientIserted(e: any) {
     const ingredient: any = e.data;
 
@@ -165,7 +164,6 @@ export class ItemFormComponent implements OnInit {
       },
     });
   }
-  onIngredientRemoved() {}
   onLaborInserted(e: any): void {
     const labor = e.data;
     this.productSvc.calculateLabor(labor).subscribe({
@@ -180,7 +178,16 @@ export class ItemFormComponent implements OnInit {
       },
     });
   }
-  onLaborRemoved() {}
+
+  onProductRemoved(): void {
+    this.calculateTotalMaterialCost();
+  }
+  onIngredientRemoved(): void {
+    this.calculateTotalMaterialCost();
+  }
+  onLaborRemoved(): void {
+    this.calculateTotalLaborCost();
+  }
 
   calculateTotalMaterialCost(): void {
     const totalsI: number[] = this.ingredients

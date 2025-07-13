@@ -1,7 +1,10 @@
 <!--<dx-tabs width="100%" [items]="['Ingredients', 'Products', 'Items', 'Settings']">
 </dx-tabs>-->
-<div>
-    <dx-tabs width="100%" class="tabs" [dataSource]="tabs" displayExpor="text"
+<div class="headers">
+    <dx-tabs width="100%" class="tabs" [dataSource]="tabs" displayExpr="text"
         (onItemClick)="onTabClick($event)"></dx-tabs>
+
+    <dx-button icon="preferences" stylingMode="text" hint="Settings" class="settings-button"
+        (onClick)="onSettingsButtonClick()"></dx-button>
 </div>
 <router-outlet></router-outlet>
