@@ -1,10 +1,27 @@
-<!--<dx-tabs width="100%" [items]="['Ingredients', 'Products', 'Items', 'Settings']">
-</dx-tabs>-->
 <div class="headers">
     <dx-tabs width="100%" class="tabs" [dataSource]="tabs" displayExpr="text"
         (onItemClick)="onTabClick($event)"></dx-tabs>
 
+    @if(!logedIn()){
+    <dx-button [width]="100" type="default" stylingMode="contained" text="Login" hint="Login" class="login-button"
+        (onClick)="onLoginButtonClick()"></dx-button>
+    }
+
+    @if(logedIn()){
+    <dx-button [width]="100" type="default" stylingMode="contained" text="Logout" hint="Logout" class="login-button"
+        (onClick)="onLogoutButtonClick()"></dx-button>
+    }
+
     <dx-button icon="preferences" stylingMode="text" hint="Settings" class="settings-button"
         (onClick)="onSettingsButtonClick()"></dx-button>
+
+
 </div>
 <router-outlet></router-outlet>
+
+<dx-popup [visible]="showSettings" [width]="500" [height]="'auto'" [title]="'Settings'" [showTitle]="true"
+    [dragEnabled]="false" [showCloseButton]="true" [hideOnOutsideClick]="false" (onHiding)="showSettings = false">
+    @if(showSettings) {
+    <app-settings (settingsUpdated)="onSettingsSaved()"></app-settings>
+    }
+</dx-popup>

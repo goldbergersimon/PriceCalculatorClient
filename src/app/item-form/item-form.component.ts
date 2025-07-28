@@ -72,6 +72,16 @@ export class ItemFormComponent implements OnInit {
           notify('Failed to load item details', 'error', 4000);
         },
       });
+    } else {
+      this.item = {};
+      this.itemSvc.getOfficeExpences().subscribe({
+        next: (value) => {
+          this.item.officeExpenses = value;
+        },
+        error: (err) => {
+          console.error('error', err);
+        },
+      });
     }
 
     this.productSvc.getProducts().subscribe({

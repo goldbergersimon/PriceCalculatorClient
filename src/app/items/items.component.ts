@@ -53,7 +53,7 @@ export class ItemsComponent implements OnInit {
             console.log('Item deleted successfully');
           },
           error: (err: any) => {
-            console.error('Failed to delete recipe');
+            console.error('Failed to delete recipe', err);
           },
         });
       }

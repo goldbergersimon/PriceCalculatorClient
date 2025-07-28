@@ -1,0 +1,38 @@
+<div class="login-wrapper">
+    <form #loginform="ngForm" class="login-form" (ngSubmit)="onSubmit(loginform)">
+        <h2 class="login-title">Login</h2>
+
+        <div class="form-group">
+            <label for="username">Username</label>
+            <div class="input-wrapper">
+                <input type="text" id="username" name="username" [(ngModel)]="username" #usernameRef="ngModel" required
+                    class="login-input"
+                    [class.invalid]="usernameRef.invalid && (usernameRef.touched || loginform.submitted)" />
+            </div>
+            <div class="error-message" *ngIf="usernameRef.invalid && (usernameRef.touched || loginform.submitted)">
+                Username is required
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <div class="input-wrapper">
+                <input [type]="'password'" id="password" name="password" [(ngModel)]="password" #passwordRef="ngModel"
+                    required class="login-input"
+                    [class.invalid]="passwordRef.invalid && (passwordRef.touched || loginform.submitted)" />
+            </div>
+            <div class="error-message" *ngIf="passwordRef.invalid && (passwordRef.touched || loginform.submitted)">
+                Password is required
+            </div>
+        </div>
+
+        <div class="form-group remember-me">
+            <label>
+                <input type="checkbox" [(ngModel)]="rememberMe" name="rememberMe" />
+                Remember me
+            </label>
+        </div>
+
+        <button type="submit" class="login-button" [disabled]="loginform.invalid">Login</button>
+    </form>
+</div>

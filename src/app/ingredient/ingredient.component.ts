@@ -19,7 +19,9 @@ export class IngredientComponent implements OnInit {
 
   ngOnInit(): void {
     this.ingredientSvc.getIngredients().subscribe({
-      next: (data) => (this.ingredients = data),
+      next: (data) => {
+        this.ingredients = data;
+      },
       error: (err) => {
         console.error('Faild to load ingredients', err);
         notify('Faild to load ingredients', 'error', 4000);

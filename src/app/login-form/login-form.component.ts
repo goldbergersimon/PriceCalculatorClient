@@ -1,0 +1,40 @@
+import { Component, inject, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { LoginService } from '../login.service';
+import { DxTextBoxModule, DxButtonModule } from 'devextreme-angular';
+import { AppComponent } from '../app.component';
+
+@Component({
+  selector: 'app-login-form',
+  imports: [CommonModule, FormsModule, DxTextBoxModule, DxButtonModule],
+  templateUrl: './login-form.component.html',
+  styleUrl: './login-form.component.scss',
+})
+export class LoginFormComponent {
+  username: string = '';
+  password: string = '';
+  rememberMe: boolean = false;
+  private loginService = inject(LoginService);
+  private router = inject(Router);
+
+  onSubmit(form: NgForm) {
+    if (form.valid) {
+      this.loginService
+        .login(
+          { username: this.username, password: this.password },
+          this.rememberMe
+        )
+        .subscribe({
+          next: () => {
+            this.router.navigate(['/items']);
+            this.loginService.logedIn.set(true);
+          },
+          error: () => {
+            alert('Login failed. Please check your credentials.');
+          },
+        });
+    }
+  }
+}

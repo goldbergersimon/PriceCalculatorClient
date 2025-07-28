@@ -26,8 +26,9 @@
     </dx-data-grid>
 </div>
 
-<dx-popup [visible]="popupVisible" [showTitle]="true" title="Edit Recipe" [showCloseButton]="true" [dragEnabled]="true"
-    [minWidth]="1000" [maxWidth]="1500" [minHeight]="700" [maxHeight]="950" (onHiding)="popupVisible = false">
+<dx-popup [visible]="popupVisible" [showTitle]="true" [dragEnabled]="false" title="Edit Recipe" [showCloseButton]="true"
+    [dragEnabled]="false" [minWidth]="1000" [maxWidth]="1500" [minHeight]="500" [maxHeight]="950"
+    (onHiding)="popupVisible = false">
     <ng-container>
         @if(popupVisible){
         <app-product-form [productId]="selectedProductId" (formSaved)="onFormSaved($event)"></app-product-form>

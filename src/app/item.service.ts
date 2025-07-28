@@ -28,6 +28,10 @@ export class ItemService {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 
+  getOfficeExpences(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/get-office-expences`);
+  }
+
   saveItem(item: any): Observable<any> {
     if (item.itemId) {
       return this.http.put<any>(`${this.apiUrl}/${item.itemId}`, item);

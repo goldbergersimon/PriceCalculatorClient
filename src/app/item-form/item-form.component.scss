@@ -2,10 +2,11 @@
     height: 850px;
     margin: 40px auto;
     max-width: 1600px;
+    width: 100%;
     padding: 20px;
     font-family: 'Segoe UI', sans-serif;
     border: 1px solid #d0d0d0;
-    border-radius: 6px;
+    border-radius: 8px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
 }
 
@@ -21,49 +22,56 @@
     }
 }
 
-.grid-section {
-    display: flex;
+.responsive-grid-layout {
+    display: grid;
     gap: 16px;
-    //margin-bottom: 20px;
-    //justify-content: space-between;
-    //height: 50%;
-}
+    grid-template-columns: 1fr;
 
-.stacked-grids {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    flex: 1;
-}
-
-.grid-half {
-    flex: 1;
-    min-width: 400px;
-    h4 {
-        font-size: 1rem;
-        font-weight: 600;
-        margin-bottom: 8px;
-        padding-left: 6px;
+    @media (min-width: 1200px) {
+        grid-template-columns: repeat(2, 1fr);
     }
-            ::ng-deep .dx-datagrid {
+
+    .grid-box {
+        min-width: 400px;
+
+        h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            padding-left: 6px;
+        }
+
+        ::ng-deep .dx-datagrid {
             height: 375px;
             border-radius: 4px;
             border: 1px solid #c0c0c0;
             font-size: 13px;
         }
-}
+    }
 
-.summary {
-    margin: 40px auto 20px auto;
-    padding: 0 20px;
-    width: 100%;
-    max-width: 600px;
-    font-size: 14px;
-}
+    .summary {
+        font-size: 14px;
 
-.cost-summary > table > tr > td {
-    text-align: left;
-    padding-left: 10px;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+
+            th, td {
+                padding: 10px 16px;
+                border-bottom: 1px solid #e0e0e0;
+                text-align: center;
+            }
+
+            tr:last-child td {
+                border-bottom: none;
+            }
+
+            th {
+                background-color: #f9f9f9;
+                font-weight: 600;
+            }
+        }
+    }
 }
 
 .cost-summary, .profit-margin {
@@ -71,7 +79,8 @@
     border-radius: 4px;
     background-color: #fafafa;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    margin-bottom: 24px;
+    margin-bottom: 10px;
+    margin-top: 49px;
     overflow: hidden;
 
     table {
@@ -84,6 +93,7 @@
             border-bottom: 1px solid #e0e0e0;
             text-align: center;
         }
+
         tr:last-child td {
             border-bottom: none;
         }
@@ -93,6 +103,9 @@
             font-weight: 600;
         }
     }
+}
+.profit-margin {
+    margin-top: 10px;
 }
 
 .number-box {
@@ -113,12 +126,11 @@
         box-shadow: none !important;
         height: auto;
     }
+
     ::ng-deep .dx-numberbox-spin-button {
         display: none;
     }
 }
-
-
 
 .save-button {
     text-align: center;

@@ -1,6 +1,6 @@
 <form class="item-form" #form="ngForm" (ngSubmit)="saveItem()">
     <div>
-        <!--Header-->
+        <!-- Item Name -->
         <div class="name">
             <label for="itemName">Item Name</label>
             <dx-text-box #itemName name="itemName" [width]="'100%'" [(value)]="item.itemName"
@@ -9,72 +9,36 @@
             </dx-text-box>
         </div>
 
-
-        <!--Grid area-->
-        <div class="grid-section">
-            <div class="stacked-grids">
-                <!--Ingredient Grid-->
-                <div class="grid-half">
-                    <h4>Ingredients</h4>
-                    <dx-data-grid [dataSource]="ingredients" [showBorders]="true" [columnAutoWidth]="false"
-                        [allowColumnResizing]="false" [rowAlternationEnabled]="true" [paging]="{ enabled: false }"
-                        [editing]="{ mode: 'row', allowUpdating: true, allowDeleting: true, allowAdding: true }"
-                        (onFocusedCellChanged)="onFocusedCellChangedI($event)"
-                        (onRowInserted)="onIngredientIserted($event)" (onRowUpdated)="onIngredientIserted($event)"
-                        (onRowRemoved)="onIngredientRemoved()">
-                        <dxi-column dataField="ingredientId" caption="Ingredient Name">
-                            <dxo-lookup [dataSource]="allIngredients" valueExpr="ingredientId"
-                                displayExpr="name"></dxo-lookup>
-                        </dxi-column>
-                        <dxi-column dataField="quantity" caption="Qty" dataType="number"></dxi-column>
-                        <dxi-column dataField="unit" caption="Unit">
-                            <dxo-lookup [dataSource]="ingredientUnits" displayExpr="" valueExpr=""></dxo-lookup>
-                        </dxi-column>
-                        <dxi-column dataField="yields" caption="Yields" dataType="number"></dxi-column>
-                        <dxi-column dataField="totalCostPerItem" caption="Total"
-                            [format]="{type: 'currency', precision: 2}" [allowEditing]="false"></dxi-column>
-
-                        <dxi-column type="buttons" width="110">
-                            <dxi-button name="edit" icon="edit" hint="Edit"></dxi-button>
-                            <dxi-button name="delete" icon="trash" hint="Delete"></dxi-button>
-                        </dxi-column>
-                    </dx-data-grid>
-                </div>
-                <!--Product Grid-->
-                <div class="grid-half">
-                    <h4>Recipes</h4>
-                    <dx-data-grid [dataSource]="products" [showBorders]="true" [columnAutoWidth]="false"
-                        [allowColumnResizing]="false" [rowAlternationEnabled]="true" [paging]="{ enabled: false }"
-                        [editing]="{ mode: 'row', allowUpdating: true, allowDeleting: true, allowAdding: true }"
-                        (onFocusedCellChanged)="onFocusedCellChangedP($event)"
-                        (onRowInserted)="onProductIserted($event)" (onRowUpdated)="onProductIserted($event)"
-                        (onRowRemoved)="onProductRemoved()">
-                        <dxi-column dataField="productId" caption="Recipe Name">
-                            <dxo-lookup [dataSource]="allProducts" valueExpr="productId"
-                                displayExpr="name"></dxo-lookup>
-                        </dxi-column>
-                        <dxi-column dataField="quantity" caption="Qty" dataType="number"></dxi-column>
-                        <dxi-column dataField="unit" caption="Unit">
-                            <dxo-lookup [dataSource]="productUnits" displayExpr="" valueExpr=""></dxo-lookup>
-                        </dxi-column>
-                        <dxi-column dataField="yields" caption="Yields" dataType="number"></dxi-column>
-                        <dxi-column dataField="total" caption="Total" [format]="{type: 'currency', precision: 2}"
-                            [allowEditing]="false"></dxi-column>
-
-                        <dxi-column type="buttons" width="110">
-                            <dxi-button name="edit" icon="edit" hint="Edit"></dxi-button>
-                            <dxi-button name="delete" icon="trash" hint="Delete"></dxi-button>
-                        </dxi-column>
-                    </dx-data-grid>
-                </div>
-
+        <!-- Responsive Grid Section -->
+        <div class="responsive-grid-layout">
+            <!-- Ingredient Grid -->
+            <div class="grid-box ingredients">
+                <h4>Ingredients</h4>
+                <dx-data-grid [dataSource]="ingredients" [showBorders]="true" [columnAutoWidth]="false"
+                    [allowColumnResizing]="false" [rowAlternationEnabled]="true" [paging]="{ enabled: false }"
+                    [editing]="{ mode: 'row', allowUpdating: true, allowDeleting: true, allowAdding: true }"
+                    (onFocusedCellChanged)="onFocusedCellChangedI($event)" (onRowInserted)="onIngredientIserted($event)"
+                    (onRowUpdated)="onIngredientIserted($event)" (onRowRemoved)="onIngredientRemoved()">
+                    <dxi-column dataField="ingredientId" caption="Ingredient Name">
+                        <dxo-lookup [dataSource]="allIngredients" valueExpr="ingredientId"
+                            displayExpr="name"></dxo-lookup>
+                    </dxi-column>
+                    <dxi-column dataField="quantity" caption="Qty" dataType="number"></dxi-column>
+                    <dxi-column dataField="unit" caption="Unit">
+                        <dxo-lookup [dataSource]="ingredientUnits" displayExpr="" valueExpr=""></dxo-lookup>
+                    </dxi-column>
+                    <dxi-column dataField="yields" caption="Yields" dataType="number"></dxi-column>
+                    <dxi-column dataField="totalCostPerItem" caption="Total" [format]="{type: 'currency', precision: 2}"
+                        [allowEditing]="false"></dxi-column>
+                    <dxi-column type="buttons" width="110">
+                        <dxi-button name="edit" icon="edit" hint="Edit"></dxi-button>
+                        <dxi-button name="delete" icon="trash" hint="Delete"></dxi-button>
+                    </dxi-column>
+                </dx-data-grid>
             </div>
 
-
-
-
-            <!--Labor Grid-->
-            <div class="grid-half">
+            <!-- Labor Grid -->
+            <div class="grid-box labor">
                 <h4>Labor</h4>
                 <dx-data-grid [dataSource]="labors" [showBorders]="true" [rowAlternationEnabled]="true"
                     [paging]="{ enabled: false }"
@@ -90,13 +54,40 @@
                     <dxi-column dataField="yields" caption="Yields" dataType="number"></dxi-column>
                     <dxi-column dataField="totalLaborPerItem" caption="Time per item"
                         [calculateCellValue]="formatLaborTime" [allowEditing]="false"></dxi-column>
-
                     <dxi-column type="buttons" width="110">
                         <dxi-button name="edit" icon="edit" hint="Edit"></dxi-button>
                         <dxi-button name="delete" icon="trash" hint="Delete"></dxi-button>
                     </dxi-column>
                 </dx-data-grid>
+            </div>
 
+            <!-- Recipes Grid -->
+            <div class="grid-box recipes">
+                <h4>Recipes</h4>
+                <dx-data-grid [dataSource]="products" [showBorders]="true" [columnAutoWidth]="false"
+                    [allowColumnResizing]="false" [rowAlternationEnabled]="true" [paging]="{ enabled: false }"
+                    [editing]="{ mode: 'row', allowUpdating: true, allowDeleting: true, allowAdding: true }"
+                    (onFocusedCellChanged)="onFocusedCellChangedP($event)" (onRowInserted)="onProductIserted($event)"
+                    (onRowUpdated)="onProductIserted($event)" (onRowRemoved)="onProductRemoved()">
+                    <dxi-column dataField="productId" caption="Recipe Name">
+                        <dxo-lookup [dataSource]="allProducts" valueExpr="productId" displayExpr="name"></dxo-lookup>
+                    </dxi-column>
+                    <dxi-column dataField="quantity" caption="Qty" dataType="number"></dxi-column>
+                    <dxi-column dataField="unit" caption="Unit">
+                        <dxo-lookup [dataSource]="productUnits" displayExpr="" valueExpr=""></dxo-lookup>
+                    </dxi-column>
+                    <dxi-column dataField="yields" caption="Yields" dataType="number"></dxi-column>
+                    <dxi-column dataField="total" caption="Total" [format]="{type: 'currency', precision: 2}"
+                        [allowEditing]="false"></dxi-column>
+                    <dxi-column type="buttons" width="110">
+                        <dxi-button name="edit" icon="edit" hint="Edit"></dxi-button>
+                        <dxi-button name="delete" icon="trash" hint="Delete"></dxi-button>
+                    </dxi-column>
+                </dx-data-grid>
+            </div>
+
+            <!-- Totals Section -->
+            <div class="grid-box totals">
                 <div class="summary">
                     <div class="cost-summary">
                         <table>
@@ -167,8 +158,7 @@
             </div>
         </div>
 
-
-        <!--Save-button-->
+        <!-- Save Button -->
         <div class="save-button">
             <dx-button text="Save" type="success" [useSubmitBehavior]="true"></dx-button>
         </div>
