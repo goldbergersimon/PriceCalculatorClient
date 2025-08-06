@@ -2,7 +2,7 @@
     <dx-data-grid [dataSource]="items" [showBorders]="true" [columnAutoWidth]="false" [allowColumnResizing]="false"
         [rowAlternationEnabled]="true" [paging]="{enabled: false}" loadingIndicator="{show: true}"
         [loadPanel]="{enabled: true, text: 'Loading...', showIndicator: true, showPane: true}"
-        [searchPanel]="{visible: true, highlightSearchText: true, width: 500, placeholder: 'Search items...'}"
+        [searchPanel]="{visible: true, highlightSearchText: true, width: 400, placeholder: 'Search items...'}"
         class="grid-bordered">
         <dxo-toolbar>
             <dxi-item>
@@ -28,7 +28,8 @@
 </div>
 
 <dx-popup [visible]="popupVisible" [showTitle]="true" [dragEnabled]="false" title="Edit Item" [showCloseButton]="true"
-    [dragEnabled]="false" [maxWidth]="1650" [maxHeight]="1650" [minHeight]="500" (onHiding)="popupVisible = false">
+    [dragEnabled]="false" [minWidth]="500" [maxWidth]="1650" [maxHeight]="1650" [minHeight]="300"
+    (onHiding)="popupVisible = false">
     <ng-container>
         @if(popupVisible){
         <app-item-form [itemId]="selectedItemId" (formSaved)="onFormSaved($event)"></app-item-form>

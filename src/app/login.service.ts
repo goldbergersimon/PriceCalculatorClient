@@ -1,14 +1,29 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { first, Observable, tap } from 'rxjs';
+import { Router } from '@angular/router';
+import {
+  catchError,
+  finalize,
+  first,
+  map,
+  Observable,
+  ReplaySubject,
+  tap,
+  throwError,
+} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoginService {
   private http = inject(HttpClient);
+  private router = inject(Router);
   private apiUrl = 'https://localhost:7292/api/login';
+
   logedIn = signal(false);
+  private isRefreshing: boolean = false;
+  isLoggedOut: boolean = false;
+  private refreshTokenSubject = new ReplaySubject<string>(1);
 
   login(
     credentials: { username: string; password: string },
@@ -24,30 +39,62 @@ export class LoginService {
           const storage = rememberMe ? localStorage : sessionStorage;
           storage.setItem('accessToken', res.accessToken);
           storage.setItem('refreshToken', res.refreshToken);
-        }),
-        first()
+          this.logedIn.set(true);
+        })
       );
   }
 
-  refreshtoken(): Observable<{ accessToken: string; refreshToken: string }> {
-    const accessToken =
-      localStorage.getItem('accessToken') ||
-      sessionStorage.getItem('accessToken');
+  refreshToken(): Observable<string> {
+    const accessToken = this.getToken();
     const refreshToken =
       localStorage.getItem('refreshToken') ||
       sessionStorage.getItem('refreshToken');
 
-    return this.http.post<{ accessToken: string; refreshToken: string }>(
-      `${this.apiUrl}/refresh`,
-      { accessToken: accessToken, refreshToken: refreshToken }
-    );
-  }
+    if (!accessToken || !refreshToken || this.isLoggedOut) {
+      this.logout();
+      return throwError(() => new Error('No valid tokens found'));
+    }
 
-  logout(): void {
-    localStorage.removeItem('accessToken');
-    sessionStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    sessionStorage.removeItem('refreshToken');
+    if (this.isRefreshing) {
+      return this.refreshTokenSubject.asObservable(); // ✅ also an Observable
+    }
+
+    this.isRefreshing = true;
+
+    return this.http
+      .post<{ accessToken: string; refreshToken: string }>(
+        `${this.apiUrl}/refresh`,
+        { accessToken, refreshToken }
+      )
+      .pipe(
+        tap((res) => {
+          const storage = localStorage.getItem('accessToken')
+            ? localStorage
+            : sessionStorage;
+          storage.setItem('accessToken', res.accessToken);
+          storage.setItem('refreshToken', res.refreshToken);
+          this.logedIn.set(true);
+          this.refreshTokenSubject.next(res.accessToken);
+          this.refreshTokenSubject.complete();
+        }),
+        catchError((err) => {
+          this.logout();
+          this.refreshTokenSubject.error(err);
+          return throwError(() => err);
+        }),
+        finalize(() => {
+          this.isRefreshing = false;
+          this.refreshTokenSubject = new ReplaySubject<string>(1); // reset subject
+        }),
+        map((res) => res.accessToken) // ✅ make sure final output is a string
+      );
+  }
+  logout() {
+    this.isLoggedOut = true;
+    this.logedIn.set(false);
+    localStorage.clear();
+    sessionStorage.clear();
+    this.router.navigate(['/login']);
   }
 
   getToken(): string | null {
@@ -58,12 +105,6 @@ export class LoginService {
   }
 
   isLogedIn(): boolean {
-    if (
-      localStorage.getItem('accessToken') ||
-      sessionStorage.getItem('accessToken')
-    ) {
-      return true;
-    }
-    return false;
+    return this.getToken() !== null;
   }
 }

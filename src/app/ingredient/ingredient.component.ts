@@ -63,6 +63,9 @@ export class IngredientComponent implements OnInit {
     e.cancel = true; // Prevent the default delete action
     this.ingredientSvc.deleteIngredient(e.data.ingredientId).subscribe({
       next: () => {
+        this.ingredients = this.ingredients.filter(
+          (ing) => ing.ingredientId !== e.data.ingredientId
+        );
         console.log('Ingredient deleted successfully');
         notify('Ingredient deleted successfully', 'success', 3000);
       },
@@ -81,7 +84,7 @@ export class IngredientComponent implements OnInit {
 
   onEditorPreparing(e: any) {
     if (e.dataField === 'name' && e.parentType === 'dataRow') {
-      const isExistingIngredient = !!e.row?.data?.ingredientId;
+      const isExistingIngredient: boolean = !!e.row?.data?.ingredientId;
       if (isExistingIngredient) {
         e.editorOptions.readOnly = true; // Disable editing for existing ingredients
       }

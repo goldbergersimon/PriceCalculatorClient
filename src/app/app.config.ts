@@ -9,13 +9,17 @@ import {
 } from '@angular/common/http';
 import { licenseKey } from '../../public/devexpress-lice';
 import config from 'devExtreme/core/config';
-import { AuthInterceptor } from './auth.interceptoe';
+import { loginInterceptor } from './login.interceptor';
+import { errorInterceptor } from './error.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withFetch(), withInterceptors([AuthInterceptor])),
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([loginInterceptor, errorInterceptor])
+    ),
   ],
 };
 
