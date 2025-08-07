@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import {
   catchError,
   finalize,
-  first,
   map,
   Observable,
   ReplaySubject,

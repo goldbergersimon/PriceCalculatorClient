@@ -37,30 +37,6 @@
                 </dx-data-grid>
             </div>
 
-            <!-- Labor Grid -->
-            <div class="grid-box labor">
-                <h4>Labor</h4>
-                <dx-data-grid [dataSource]="labors" [showBorders]="true" [rowAlternationEnabled]="true"
-                    [paging]="{ enabled: false }"
-                    [editing]="{ mode: 'row', allowUpdating: true, allowDeleting: true, allowAdding: true }"
-                    (onRowInserted)="onLaborInserted($event)" (onRowUpdated)="onLaborInserted($event)"
-                    (onRowRemoved)="onLaborRemoved()">
-                    <dxi-column dataField="laborName" caption="Process Name">
-                        <dxi-validation-rule type="required" message="Process name is required"></dxi-validation-rule>
-                    </dxi-column>
-                    <dxi-column dataField="duration" caption="Time"
-                        [editorOptions]="durationEditorOptions"></dxi-column>
-                    <dxi-column dataField="workers" caption="# of workers" dataType="number"></dxi-column>
-                    <dxi-column dataField="yields" caption="Yields" dataType="number"></dxi-column>
-                    <dxi-column dataField="totalLaborPerItem" caption="Time per item"
-                        [calculateCellValue]="formatLaborTime" [allowEditing]="false"></dxi-column>
-                    <dxi-column type="buttons" width="110">
-                        <dxi-button name="edit" icon="edit" hint="Edit"></dxi-button>
-                        <dxi-button name="delete" icon="trash" hint="Delete"></dxi-button>
-                    </dxi-column>
-                </dx-data-grid>
-            </div>
-
             <!-- Recipes Grid -->
             <div class="grid-box recipes">
                 <h4>Recipes</h4>
@@ -85,6 +61,31 @@
                     </dxi-column>
                 </dx-data-grid>
             </div>
+
+            <!-- Labor Grid -->
+            <div class="grid-box labor">
+                <h4>Labor</h4>
+                <dx-data-grid [dataSource]="labors" [showBorders]="true" [rowAlternationEnabled]="true"
+                    [paging]="{ enabled: false }"
+                    [editing]="{ mode: 'row', allowUpdating: true, allowDeleting: true, allowAdding: true }"
+                    (onRowInserted)="onLaborInserted($event)" (onRowUpdated)="onLaborInserted($event)"
+                    (onRowRemoved)="onLaborRemoved()">
+                    <dxi-column dataField="laborName" caption="Process Name">
+                        <dxi-validation-rule type="required" message="Process name is required"></dxi-validation-rule>
+                    </dxi-column>
+                    <dxi-column dataField="duration" caption="Time"
+                        [editorOptions]="durationEditorOptions"></dxi-column>
+                    <dxi-column dataField="workers" caption="# of workers" dataType="number"></dxi-column>
+                    <dxi-column dataField="yields" caption="Yields" dataType="number"></dxi-column>
+                    <dxi-column dataField="totalLaborPerItem" caption="Time per item"
+                        [calculateCellValue]="formatLaborTime" [allowEditing]="false"></dxi-column>
+                    <dxi-column type="buttons" width="110">
+                        <dxi-button name="edit" icon="edit" hint="Edit"></dxi-button>
+                        <dxi-button name="delete" icon="trash" hint="Delete"></dxi-button>
+                    </dxi-column>
+                </dx-data-grid>
+            </div>
+
 
             <!-- Totals Section -->
             <div class="grid-box totals">
