@@ -1,4 +1,4 @@
-import { IProduct, ProductService } from './../product.service';
+import { ProductService } from './../product.service';
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -17,7 +17,14 @@ import {
   DxTextBoxModule,
 } from 'devextreme-angular';
 import notify from 'devextreme/ui/notify';
-import { Ingredient, IngredientService } from '../ingredient.service';
+import { IngredientService } from '../ingredient.service';
+import { Ingredient } from '../models/ingredient.models';
+import {
+  IProduct,
+  IProductIngredient,
+  IProductLabor,
+  IProductList,
+} from '../models/product.models';
 
 @Component({
   selector: 'app-product-form',
@@ -36,7 +43,7 @@ import { Ingredient, IngredientService } from '../ingredient.service';
 })
 export class ProductFormComponent implements OnInit {
   productId = input<number>();
-  @Output() formSaved = new EventEmitter<IProduct>();
+  @Output() formSaved = new EventEmitter<IProductList>();
 
   product: any = {};
   ingredients: any[] = [];
@@ -45,6 +52,8 @@ export class ProductFormComponent implements OnInit {
   allIngredients: Ingredient[] = [];
   productSvc = inject(ProductService);
   ingredientSvc = inject(IngredientService);
+
+  constructor() {}
 
   durationEditorOptions = {
     mask: '00:00:00',
@@ -58,8 +67,6 @@ export class ProductFormComponent implements OnInit {
 
     return rew.split('.')[0];
   };
-
-  constructor() {}
 
   ngOnInit(): void {
     const id = this.productId();

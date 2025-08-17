@@ -1,7 +1,7 @@
 <div id="product-data-grid">
-    <dx-data-grid [dataSource]="products" [showBorders]="true" [columnAutoWidth]="false" [allowColumnResizing]="false"
+    <dx-data-grid [dataSource]="products" [showBorders]="true" [columnAutoWidth]="false" [allowColumnResizing]="true"
         [rowAlternationEnabled]="true"
-        [searchPanel]="{visible: true, highlightSearchText: true, width: 500, placeholder: 'Search recipes...'}"
+        [searchPanel]="{visible: true, highlightSearchText: true, width: 400, placeholder: 'Search recipes...'}"
         class="grid-bordered" (onFocusedRowChanged)="selectedProductId = $event.row?.data.productId">
         <dxo-toolbar>
             <dxi-item>
@@ -26,9 +26,8 @@
     </dx-data-grid>
 </div>
 
-<dx-popup [visible]="popupVisible" [showTitle]="true" [dragEnabled]="false" title="Edit Recipe" [showCloseButton]="true"
-    [dragEnabled]="false" [minWidth]="1000" [maxWidth]="1500" [minHeight]="500" [maxHeight]="950"
-    (onHiding)="popupVisible = false">
+<dx-popup [visible]="popupVisible" [showTitle]="true" title="Edit Recipe" [showCloseButton]="true" [dragEnabled]="false"
+    [minWidth]="1000" [maxWidth]="1500" [minHeight]="500" [maxHeight]="950" (onHiding)="popupVisible = false">
     <ng-container>
         @if(popupVisible){
         <app-product-form [productId]="selectedProductId" (formSaved)="onFormSaved($event)"></app-product-form>

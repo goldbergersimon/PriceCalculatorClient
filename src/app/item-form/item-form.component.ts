@@ -17,8 +17,10 @@ import {
 import { ItemService } from '../item.service';
 import notify from 'devextreme/ui/notify';
 import { ProductService } from '../product.service';
-import { Ingredient, IngredientService } from '../ingredient.service';
+import { IngredientService } from '../ingredient.service';
 import { Item } from 'devextreme/ui/toolbar';
+import { Ingredient } from '../models/ingredient.models';
+import { IItem } from '../models/item.models';
 
 @Component({
   selector: 'app-item-form',
@@ -263,7 +265,7 @@ export class ItemFormComponent implements OnInit {
 
   onWholesaleChanged(e: any) {
     const margin: number = e.value;
-    const cost: number = this.item.costPrice;
+    const cost = this.item.costPrice;
 
     const payload = { margin: margin, cost: cost };
     this.itemSvc.CalculateProfitMargin(payload).subscribe({
@@ -292,6 +294,12 @@ export class ItemFormComponent implements OnInit {
       },
     });
   }
+
+  retailChanged(e: any) {}
+
+  wholesaleChanged(e: any) {}
+
+  ownChanged(e: any) {}
 
   recalculateMarginsAndProfits(): void {
     const cost = this.item.costPrice;

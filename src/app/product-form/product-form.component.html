@@ -2,8 +2,9 @@
     <div>
         <!--Header-->
         <div class="name">
-            <label for="productName">Product Name</label>
-            <dx-text-box name="productName" [width]="'100%'" [(value)]="product.name" placeholder="Enter product name">
+            <label for="productNameId">Product Name</label>
+            <dx-text-box id="productNameId" name="productName" [width]="'100%'" [(value)]="product.name"
+                placeholder="Enter product name">
                 <dxi-validation-rule type="required" message="Product name is required"></dxi-validation-rule>
             </dx-text-box>
         </div>
@@ -93,7 +94,8 @@
 
         <!--Save-button-->
         <div class="save-button">
-            <dx-button text="Save" type="success" [useSubmitBehavior]="true"></dx-button>
+            <dx-button text="Save" type="success" [useSubmitBehavior]="true"
+                [disabled]="!product.name?.trim()"></dx-button>
         </div>
     </div>
 </form>

@@ -1,26 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
-export interface Ingredient {
-  ingredientId: number;
-  name: string;
-  totalCost: number;
-  cups: number;
-  pricePerCup: number;
-  tbs: number;
-  pricePerTbs: number;
-  tsp: number;
-  pricePerTsp: number;
-  pieces: number;
-  pricePerPiece: number;
-  pounds: number;
-  pricePerPound: number;
-  oz: number;
-  pricePerOz: number;
-
-  [key: string]: number | string | undefined;
-}
+import { Ingredient } from './models/ingredient.models';
 
 @Injectable({
   providedIn: 'root',

@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { DxDataGridModule } from 'devextreme-angular/ui/data-grid';
-import { Item, ItemService } from '../item.service';
+import { ItemService } from '../item.service';
 import { DxButtonModule, DxPopupModule } from 'devextreme-angular';
 import { ItemFormComponent } from '../item-form/item-form.component';
 import { confirm } from 'devextreme/ui/dialog';
+import { IItemList } from '../models/item.models';
 
 @Component({
   selector: 'app-items',
@@ -20,7 +21,7 @@ import { confirm } from 'devextreme/ui/dialog';
   styleUrl: './items.component.scss',
 })
 export class ItemsComponent implements OnInit {
-  items: Item[] = [];
+  items: IItemList[] = [];
   popupVisible: boolean = false;
   selectedItemId?: number;
   itemSvc = inject(ItemService);

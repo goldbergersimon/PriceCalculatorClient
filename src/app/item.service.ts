@@ -1,15 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
-export interface Item {
-  itemId: number;
-  itemName: string;
-  costPrice: number;
-  ownPrice: number;
-  wholesalePeice: number;
-  retailPrice: number;
-}
+import { IItemList } from './models/item.models';
 
 @Injectable({
   providedIn: 'root',
@@ -20,8 +12,8 @@ export class ItemService {
 
   constructor() {}
 
-  getAllItems(): Observable<Item[]> {
-    return this.http.get<Item[]>(this.apiUrl);
+  getAllItems(): Observable<IItemList[]> {
+    return this.http.get<IItemList[]>(this.apiUrl);
   }
 
   getItemById(id: number): Observable<any> {

@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { DxDataGridModule } from 'devextreme-angular/ui/data-grid';
-import { IProduct, ProductService } from '../product.service';
+import { ProductService } from '../product.service';
 import notify from 'devextreme/ui/notify';
 import { confirm } from 'devextreme/ui/dialog';
 import { ProductFormComponent } from '../product-form/product-form.component';
 import { DxButtonModule, DxPopupModule } from 'devextreme-angular';
+import { IProductList } from '../models/product.models';
 
 @Component({
   selector: 'app-products',
@@ -21,7 +22,7 @@ import { DxButtonModule, DxPopupModule } from 'devextreme-angular';
   styleUrls: ['./products.component.scss'],
 })
 export class ProductsComponent implements OnInit {
-  products: IProduct[] = [];
+  products: IProductList[] = [];
   selectedProductId?: number;
   popupVisible: boolean = false;
   productSvc = inject(ProductService);
@@ -71,7 +72,7 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  onFormSaved(savedProduct: IProduct): void {
+  onFormSaved(savedProduct: IProductList): void {
     this.popupVisible = false;
     const index = this.products.findIndex(
       (p) => p.productId === savedProduct.productId

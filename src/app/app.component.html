@@ -3,12 +3,12 @@
         (onItemClick)="onTabClick($event)"></dx-tabs>
 
     @if(!logedIn()){
-    <dx-button [width]="100" type="default" stylingMode="contained" text="Login" hint="Login" class="login-button"
+    <dx-button [width]="125" type="default" stylingMode="contained" text="Sign In" hint="Sign In" class="login-button"
         (onClick)="onLoginButtonClick()"></dx-button>
     }
 
     @if(logedIn()){
-    <dx-button [width]="100" type="default" stylingMode="contained" text="Logout" hint="Logout" class="login-button"
+    <dx-button [width]="125" type="default" stylingMode="contained" text="Sign Out" hint="Sign Out" class="login-button"
         (onClick)="onLogoutButtonClick()"></dx-button>
     }
 
@@ -19,7 +19,7 @@
 </div>
 <router-outlet></router-outlet>
 
-<dx-popup [visible]="showSettings" [width]="500" [height]="'auto'" [title]="'Settings'" [showTitle]="true"
+<dx-popup [visible]="showSettings" [width]="500" [height]="650" [title]="'Settings'" [showTitle]="true"
     [dragEnabled]="false" [showCloseButton]="true" [hideOnOutsideClick]="false" (onHiding)="showSettings = false">
     @if(showSettings) {
     <app-settings (settingsUpdated)="onSettingsSaved()"></app-settings>

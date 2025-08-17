@@ -1,8 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { DxDataGridModule } from 'devextreme-angular/ui/data-grid';
-import { Ingredient, IngredientService } from '../ingredient.service';
+import { IngredientService } from '../ingredient.service';
 import { CommonModule } from '@angular/common';
 import notify from 'devextreme/ui/notify';
+import { Ingredient } from '../models/ingredient.models';
 
 @Component({
   selector: 'app-ingredient',
@@ -27,6 +28,14 @@ export class IngredientComponent implements OnInit {
         notify('Faild to load ingredients', 'error', 4000);
       },
     });
+  }
+
+  onRowValidating(e: any) {
+    const name = e.newData?.name ?? e.oldData?.name ?? '';
+    if (!name || !name.trim()) {
+      e.isValid = false;
+      e.errorText = 'Name is required.';
+    }
   }
 
   onRowInserting(e: any): void {
@@ -67,16 +76,15 @@ export class IngredientComponent implements OnInit {
           (ing) => ing.ingredientId !== e.data.ingredientId
         );
         console.log('Ingredient deleted successfully');
-        notify('Ingredient deleted successfully', 'success', 3000);
       },
       error: (err: any) => {
         console.error('Error deleting ingredient:', err);
         if (err.status === 400 && err.error?.message) {
           notify(err.error.message, 'error', 4000);
         } else if (err.status === 404) {
-          notify('Ingreidient not found.', 'worning', 4000);
+          notify('Ingreidient not found.', 'worning', 3000);
         } else {
-          notify('An unexpected error occurred.', 'error', 4000);
+          notify('An unexpected error occurred.', 'error', 3000);
         }
       },
     });

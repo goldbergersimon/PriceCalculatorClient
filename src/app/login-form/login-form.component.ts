@@ -4,7 +4,6 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from '../login.service';
 import { DxTextBoxModule, DxButtonModule } from 'devextreme-angular';
-import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-login-form',

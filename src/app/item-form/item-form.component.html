@@ -2,8 +2,8 @@
     <div>
         <!-- Item Name -->
         <div class="name">
-            <label for="itemName">Item Name</label>
-            <dx-text-box #itemName name="itemName" [width]="'100%'" [(value)]="item.itemName"
+            <label for="itemNameId">Item Name</label>
+            <dx-text-box id="itemNameId" name="itemName" [width]="'100%'" [(value)]="item.itemName"
                 placeholder="Enter item name">
                 <dxi-validation-rule type="required" message="Item name is required"></dxi-validation-rule>
             </dx-text-box>
@@ -127,7 +127,7 @@
                                     <td>{{item.retailProfit | currency}}</td>
                                     <td>
                                         <dx-number-box class="number-box" [(value)]="item.retailMargin"
-                                            name="retailMargin" [min]="0" [showSpinButtons]="false"
+                                            name="retailMargin" id="retailMargin" [min]="0" [showSpinButtons]="false"
                                             (onValueChanged)="onRetailChanged($event)"></dx-number-box>
                                     </td>
                                 </tr>
@@ -137,7 +137,8 @@
                                     <td>{{item.wholesaleProfit | currency}}</td>
                                     <td>
                                         <dx-number-box class="number-box" [(value)]="item.wholesaleMargin"
-                                            name="wholesaleMargin" [min]="0" [showSpinButtons]="false"
+                                            name="wholesaleMargin" id="wholesaleMargin" [min]="0"
+                                            [showSpinButtons]="false"
                                             (onValueChanged)="onWholesaleChanged($event)"></dx-number-box>
                                     </td>
                                 </tr>
@@ -145,7 +146,7 @@
                                     <td><strong>Your own price</strong></td>
                                     <td>
                                         <dx-number-box class="number-box" [(value)]="item.ownPrice" name="ownPrice"
-                                            [min]="0" [showSpinButtons]="false"
+                                            id="ownPrice" [min]="0" [showSpinButtons]="false"
                                             [format]="{ type: 'currency', precision: 2 }"
                                             (onValueChanged)="onOwnChanged($event)"></dx-number-box>
                                     </td>
@@ -161,7 +162,8 @@
 
         <!-- Save Button -->
         <div class="save-button">
-            <dx-button text="Save" type="success" [useSubmitBehavior]="true"></dx-button>
+            <dx-button text="Save" type="success" [useSubmitBehavior]="true"
+                [disabled]="!item.itemName?.trim()"></dx-button>
         </div>
     </div>
 </form>

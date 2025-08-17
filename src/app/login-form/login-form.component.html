@@ -1,6 +1,6 @@
 <div class="login-wrapper">
     <form #loginform="ngForm" class="login-form" (ngSubmit)="onSubmit(loginform)">
-        <h2 class="login-title">Login</h2>
+        <h2 class="login-title">Sign In</h2>
 
         <div class="form-group">
             <label for="username">Username</label>
@@ -33,6 +33,6 @@
             </label>
         </div>
 
-        <button type="submit" class="login-button" [disabled]="loginform.invalid">Login</button>
+        <button type="submit" class="login-button" [disabled]="loginform.invalid">Sign In</button>
     </form>
 </div>

@@ -1,69 +1,33 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
-export interface IProduct {
-  productId?: number;
-  name: string;
-  costPrice: number;
-  container?: number;
-  pieces?: number;
-  oz?: number;
-}
-export interface IProductDetails {
-  productId?: number;
-  name: string;
-  costPrice: number;
-  ingredientCost: number;
-  laborCost: number;
-  oz?: number;
-  container?: number;
-  pieces?: number;
-  productIngredients: IProductIngredient[];
-  productLabors: IProductLabor[];
-}
-
-export interface IProductIngredient {
-  productIngredientId: number;
-  productId: number;
-  ingredientId: number;
-  quantity: number;
-  unit: string;
-}
-
-export interface IProductLabor {
-  id: number;
-  laborName: string;
-  duration: string;
-  workers: number;
-  yields: number;
-  totalLaborPerItem: string;
-  totalLaborCost: number;
-  productId: number;
-}
+import { IProduct, IProductList } from './models/product.models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
-  private apiUrl = 'https://localhost:7292/api/product';
+  private apiUrl: string = 'https://localhost:7292/api/product';
   http = inject(HttpClient);
 
   constructor() {}
 
-  getProducts(): Observable<IProduct[]> {
-    return this.http.get<IProduct[]>(this.apiUrl);
+  getProducts(): Observable<IProductList[]> {
+    return this.http.get<IProductList[]>(this.apiUrl);
   }
 
-  getProductById(id: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  getProductById(id: number): Observable<IProduct> {
+    return this.http.get<IProduct>(`${this.apiUrl}/${id}`);
   }
 
-  saveProduct(product: any): Observable<any> {
+  saveProduct(product: any): Observable<IProductList> {
     if (!product.productId) {
-      return this.http.post<any>(this.apiUrl, product);
+      return this.http.post<IProductList>(this.apiUrl, product);
     } else {
-      return this.http.put<any>(`${this.apiUrl}/${product.productId}`, product);
+      return this.http.put<IProductList>(
+        `${this.apiUrl}/${product.productId}`,
+        product
+      );
     }
   }
 

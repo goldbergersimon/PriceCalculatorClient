@@ -10,6 +10,7 @@ import {
   tap,
   throwError,
 } from 'rxjs';
+import { DeviceService } from './device.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,7 @@ import {
 export class LoginService {
   private http = inject(HttpClient);
   private router = inject(Router);
+  private deviceService = inject(DeviceService);
   private apiUrl = 'https://localhost:7292/api/login';
 
   logedIn = signal(false);
@@ -28,10 +30,11 @@ export class LoginService {
     credentials: { username: string; password: string },
     rememberMe: boolean
   ): Observable<{ accessToken: string; refreshToken: string }> {
+    const deviceId = this.deviceService.getDeviceId();
     return this.http
       .post<{ accessToken: string; refreshToken: string }>(
         `${this.apiUrl}/login`,
-        credentials
+        { ...credentials, deviceId }
       )
       .pipe(
         tap((res) => {
@@ -48,6 +51,7 @@ export class LoginService {
     const refreshToken =
       localStorage.getItem('refreshToken') ||
       sessionStorage.getItem('refreshToken');
+    const deviceId = this.deviceService.getDeviceId();
 
     if (!accessToken || !refreshToken || this.isLoggedOut) {
       this.logout();
@@ -63,7 +67,7 @@ export class LoginService {
     return this.http
       .post<{ accessToken: string; refreshToken: string }>(
         `${this.apiUrl}/refresh`,
-        { accessToken, refreshToken }
+        { accessToken, refreshToken, deviceId } // include deviceId in the request
       )
       .pipe(
         tap((res) => {
@@ -91,7 +95,8 @@ export class LoginService {
   logout() {
     this.isLoggedOut = true;
     this.logedIn.set(false);
-    localStorage.clear();
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
     sessionStorage.clear();
     this.router.navigate(['/login']);
   }
