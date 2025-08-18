@@ -1,5 +1,5 @@
 {
-  "name": "price-calculator-clinet",
+  "name": "price-calculator-client",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -40,5 +40,8 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.8.3"
+  },
+  "engines": {
+    "node": ">=20.19.0"
   }
 }
