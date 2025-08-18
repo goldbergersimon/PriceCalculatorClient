@@ -1,0 +1,4 @@
+{
+  "appService.defaultWebAppToDeploy": "/subscriptions/fd82d654-ae48-4912-91b2-fe9b86d46ae4/resourceGroups/Resource1/providers/Microsoft.Web/sites/pricecalculator",
+  "appService.deploySubpath": "dist\\price-calculator-client"
+}

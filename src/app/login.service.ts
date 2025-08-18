@@ -11,6 +11,7 @@ import {
   throwError,
 } from 'rxjs';
 import { DeviceService } from './device.service';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,7 @@ export class LoginService {
   private http = inject(HttpClient);
   private router = inject(Router);
   private deviceService = inject(DeviceService);
-  private apiUrl = 'https://localhost:7292/api/login';
+  private apiUrl = `${environment.apiUrl}/login`; //'https://localhost:7292/api/login';
 
   logedIn = signal(false);
   private isRefreshing: boolean = false;
