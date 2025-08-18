@@ -8,7 +8,7 @@ import {
   withInterceptors,
 } from '@angular/common/http';
 import { licenseKey } from '../../public/devexpress-lice';
-import config from 'devExtreme/core/config';
+import config from 'devextreme/core/config';
 import { loginInterceptor } from './login.interceptor';
 import { errorInterceptor } from './error.interceptor';
 
