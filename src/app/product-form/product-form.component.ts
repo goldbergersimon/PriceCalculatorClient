@@ -19,12 +19,7 @@ import {
 import notify from 'devextreme/ui/notify';
 import { IngredientService } from '../ingredient.service';
 import { Ingredient } from '../models/ingredient.models';
-import {
-  IProduct,
-  IProductIngredient,
-  IProductLabor,
-  IProductList,
-} from '../models/product.models';
+import { IProductList } from '../models/product.models';
 
 @Component({
   selector: 'app-product-form',

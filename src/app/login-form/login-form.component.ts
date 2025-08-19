@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -32,7 +32,7 @@ export class LoginFormComponent {
           },
           error: (err) => {
             if (err.status === 400) {
-              alert('Invalid username or password.');
+              alert(err.error?.message || 'Invalid username or password.');
             } else {
               alert('Login failed. Please check your credentials.');
             }

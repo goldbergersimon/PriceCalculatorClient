@@ -20,7 +20,6 @@ import { ProductService } from '../product.service';
 import { IngredientService } from '../ingredient.service';
 import { Item } from 'devextreme/ui/toolbar';
 import { Ingredient } from '../models/ingredient.models';
-import { IItem } from '../models/item.models';
 
 @Component({
   selector: 'app-item-form',
