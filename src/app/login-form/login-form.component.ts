@@ -30,8 +30,12 @@ export class LoginFormComponent {
             this.router.navigate(['/items']);
             this.loginService.logedIn.set(true);
           },
-          error: () => {
-            alert('Login failed. Please check your credentials.');
+          error: (err) => {
+            if (err.status === 400) {
+              alert(err.error.message);
+            } else {
+              alert('Login failed. Please check your credentials.');
+            }
           },
         });
     }
