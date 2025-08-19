@@ -32,7 +32,7 @@ export class LoginFormComponent {
           },
           error: (err) => {
             if (err.status === 400) {
-              alert(err.error.message);
+              alert('Invalid username or password.');
             } else {
               alert('Login failed. Please check your credentials.');
             }
