@@ -16,45 +16,39 @@
                 </dxi-item>
                 <dxi-item dataField="totalCost" dataType="number" [editorOptions]="currency"></dxi-item>
                 <dxi-item dataField="cups" dataType="number" [editorOptions]="fixed2"></dxi-item>
-                <dxi-item dataField="pricePerCup" dataType="number" [editorOptions]="readOnlyCurency"></dxi-item>
+                <dxi-item dataField="pricePerCup" dataType="number" [editorOptions]="readOnlyCurrency"></dxi-item>
                 <dxi-item dataField="tbs" dataType="number" [editorOptions]="fixed0"></dxi-item>
-                <dxi-item dataField="pricePerTbs" dataType="number" [editorOptions]="readOnlyCurency"></dxi-item>
+                <dxi-item dataField="pricePerTbs" dataType="number" [editorOptions]="readOnlyCurrency"></dxi-item>
                 <dxi-item dataField="tsp" dataType="number" [editorOptions]="fixed0"></dxi-item>
-                <dxi-item dataField="pricePerTsp" dataType="number" [editorOptions]="readOnlyCurency"></dxi-item>
+                <dxi-item dataField="pricePerTsp" dataType="number" [editorOptions]="readOnlyCurrency"></dxi-item>
                 <dxi-item dataField="pieces" dataType="number" [editorOptions]="fixed0"></dxi-item>
-                <dxi-item dataField="pricePerPiece" dataType="number" [editorOptions]="readOnlyCurency"></dxi-item>
+                <dxi-item dataField="pricePerPiece" dataType="number" [editorOptions]="readOnlyCurrency"></dxi-item>
                 <dxi-item dataField="pounds" dataType="number" [editorOptions]="fixed2"></dxi-item>
-                <dxi-item dataField="pricePerPound" dataType="number" [editorOptions]="readOnlyCurency"></dxi-item>
+                <dxi-item dataField="pricePerPound" dataType="number" [editorOptions]="readOnlyCurrency"></dxi-item>
                 <dxi-item dataField="oz" dataType="number" [editorOptions]="fixed0"></dxi-item>
-                <dxi-item dataField="pricePerOz" dataType="number" [editorOptions]="readOnlyCurency"></dxi-item>
+                <dxi-item dataField="pricePerOz" dataType="number" [editorOptions]="readOnlyCurrency"></dxi-item>
             </dxo-form>
         </dxo-editing>
-        <dxi-column dataField="name" caption="Name" [hidingPriority]="14"></dxi-column>
-        <dxi-column dataField="totalCost" caption="Total Cost" [format]="{type: 'currency', precision: 2}"
-            [hidingPriority]="12"></dxi-column>
-        <dxi-column dataField="cups" caption="Cups" [format]="{type: 'fixedPoint', precision: 2}"
-            [hidingPriority]="5"></dxi-column>
-        <dxi-column dataField="pricePerCup" caption="Price Per Cup" [format]="{type: 'currency', precision: 2}"
-            [hidingPriority]="11"></dxi-column>
-        <dxi-column dataField="tbs" caption="Tbs" [format]="{type: 'fixedPoint', precision: 0}"
-            [hidingPriority]="4"></dxi-column>
-        <dxi-column dataField="pricePerTbs" caption="Price Per Tbs" [format]="{type: 'currency', precision: 2}"
-            [hidingPriority]="10"></dxi-column>
-        <dxi-column dataField="tsp" caption="Tsp" [format]="{type: 'fixedPoint', precision: 0}"
-            [hidingPriority]="3"></dxi-column>
-        <dxi-column dataField="pricePerTsp" caption="Price Per Tsp" [format]="{type: 'currency', precision: 2}"
-            [hidingPriority]="9"></dxi-column>
-        <dxi-column dataField="pieces" caption="Pieces" [format]="{type: 'fixedPoint', precision:0}"
-            [hidingPriority]="2"></dxi-column>
-        <dxi-column dataField="pricePerPiece" caption="Price Per piece" [format]="{type: 'currency', precision: 2}"
-            [hidingPriority]="8"></dxi-column>
-        <dxi-column dataField="pounds" caption="Pounds" [format]="{type: 'fixedPoint', precision: 2}"
-            [hidingPriority]="1"></dxi-column>
-        <dxi-column dataField="pricePerPound" caption="Price Per Pound" [format]="{type: 'currency', precision: 2}"
-            [hidingPriority]="7"></dxi-column>
-        <dxi-column dataField="oz" caption="Oz" [format]="{type: 'fixedPoint', precision:0}"
-            [hidingPriority]="0"></dxi-column>
-        <dxi-column dataField="pricePerOz" caption="Price Per Oz" [format]="{type: 'currency', precision: 2}"
+        <dxi-column dataField="name" caption="Name" [hidingPriority]="14"></dxi-column> <dxi-column
+            dataField="totalCost" caption="Total Cost" [format]="{type: 'currency', precision: 2}"
+            [hidingPriority]="12"></dxi-column> <dxi-column dataField="cups" caption="Cups"
+            [format]="{type: 'fixedPoint', precision: 2}" [hidingPriority]="5"></dxi-column> <dxi-column
+            dataField="pricePerCup" caption="Price Per Cup" [format]="{type: 'currency', precision: 2}"
+            [hidingPriority]="11"></dxi-column> <dxi-column dataField="tbs" caption="Tbs"
+            [format]="{type: 'fixedPoint', precision: 0}" [hidingPriority]="4"></dxi-column> <dxi-column
+            dataField="pricePerTbs" caption="Price Per Tbs" [format]="{type: 'currency', precision: 2}"
+            [hidingPriority]="10"></dxi-column> <dxi-column dataField="tsp" caption="Tsp"
+            [format]="{type: 'fixedPoint', precision: 0}" [hidingPriority]="3"></dxi-column> <dxi-column
+            dataField="pricePerTsp" caption="Price Per Tsp" [format]="{type: 'currency', precision: 2}"
+            [hidingPriority]="9"></dxi-column> <dxi-column dataField="pieces" caption="Pieces"
+            [format]="{type: 'fixedPoint', precision:0}" [hidingPriority]="2"></dxi-column> <dxi-column
+            dataField="pricePerPiece" caption="Price Per piece" [format]="{type: 'currency', precision: 2}"
+            [hidingPriority]="8"></dxi-column> <dxi-column dataField="pounds" caption="Pounds"
+            [format]="{type: 'fixedPoint', precision: 2}" [hidingPriority]="1"></dxi-column> <dxi-column
+            dataField="pricePerPound" caption="Price Per Pound" [format]="{type: 'currency', precision: 2}"
+            [hidingPriority]="7"></dxi-column> <dxi-column dataField="oz" caption="Oz"
+            [format]="{type: 'fixedPoint', precision:0}" [hidingPriority]="0"></dxi-column> <dxi-column
+            dataField="pricePerOz" caption="Price Per Oz" [format]="{type: 'currency', precision: 2}"
             [hidingPriority]="6"></dxi-column>
 
         <dxi-column type="buttons" width="110" [hidingPriority]="13">

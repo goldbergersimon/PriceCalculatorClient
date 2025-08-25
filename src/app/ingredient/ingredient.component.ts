@@ -21,9 +21,9 @@ export class IngredientComponent implements OnInit {
   currency = { format: { type: 'currency', precision: 2 } };
   fixed2 = { format: { type: 'fixedPoint', precision: 2 } };
   fixed0 = { format: { type: 'fixedPoint', precision: 0 } };
-  readOnlyCurency = {
-    readonly: true,
-    inputAttr: { cladd: 'no-gray' },
+  readOnlyCurrency = {
+    readOnly: true,
+    inputAttr: { class: 'no-gray' },
     format: { type: 'currency', precision: 2 },
   };
 
@@ -103,6 +103,10 @@ export class IngredientComponent implements OnInit {
   }
 
   onEditorPreparing(e: any) {
+    if (e.dataType === 'totalCost' && e.parentType === 'dataRow') {
+      e.editorOptions.format = { type: 'currency', precision: 2 };
+    }
+
     if (e.dataField === 'name' && e.parentType === 'dataRow') {
       const isExistingIngredient: boolean = !!e.row?.data?.ingredientId;
       if (isExistingIngredient) {
