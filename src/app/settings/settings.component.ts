@@ -40,6 +40,10 @@ export class SettingsComponent implements OnInit {
     });
   }
 
+  formatKey(rowData: any) {
+    return rowData.key.replace(/([a-z])([A-Z])/g, '$1 $2');
+  }
+
   saveSettings() {
     this.dataGrid.instance.saveEditData();
     this.settingsSvc.SaveSettings(this.settings).subscribe({

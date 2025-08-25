@@ -1,6 +1,6 @@
 <div class="settings-grid">
     <dx-data-grid [dataSource]="settings" [showColumnHeaders]="false" [editing]="{ mode: 'cell', allowUpdating: true }">
-        <dxi-column dataField="key" [allowEditing]="false"></dxi-column>
+        <dxi-column dataField="key" [allowEditing]="false" [calculateCellValue]="formatKey"></dxi-column>
         <dxi-column dataField="value" [allowEditing]="true"></dxi-column>
     </dx-data-grid>
 </div>
