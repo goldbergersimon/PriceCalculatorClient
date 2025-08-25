@@ -41,9 +41,12 @@ export class IngredientComponent implements OnInit {
   onRowInserting(e: any): void {
     const newIngredient: Ingredient = e.data;
 
-    e.cansel = true; // Prevent the default insert action
+    e.cancel = true; // Prevent the default insert action
     this.ingredientSvc.createIngredient(newIngredient).subscribe({
-      next: () => {},
+      next: (data) => {
+        this.ingredients.push(data);
+        e.component.cancelEditData();
+      },
       error: (err) => {
         console.error('Error creating ingredient:', err);
         notify('Failed to add ingredient.', 'error', 4000);
