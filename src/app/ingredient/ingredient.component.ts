@@ -18,7 +18,7 @@ export class IngredientComponent implements OnInit {
 
   constructor() {}
 
-  currency = { format: { type: 'currency', precision: 2 } };
+  public currency = { format: { type: 'currency', precision: 2 } };
   fixed2 = { format: { type: 'fixedPoint', precision: 2 } };
   fixed0 = { format: { type: 'fixedPoint', precision: 0 } };
   readOnlyCurrency = {
@@ -28,6 +28,7 @@ export class IngredientComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    console.log('currency config', this.currency);
     this.ingredientSvc.getIngredients().subscribe({
       next: (data) => {
         this.ingredients = data;
