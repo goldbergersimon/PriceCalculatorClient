@@ -53,6 +53,7 @@ export class LoginService {
       localStorage.getItem('refreshToken') ||
       sessionStorage.getItem('refreshToken');
     const deviceId = this.deviceService.getDeviceId();
+    console.log('Refreshing token...', { accessToken, refreshToken, deviceId });
 
     if (!accessToken || !refreshToken || this.isLoggedOut) {
       this.logout();
