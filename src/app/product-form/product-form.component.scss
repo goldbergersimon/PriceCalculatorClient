@@ -1,24 +1,14 @@
-.product-form {
-    //height: 850px;
-    //margin: 40px auto;
-    //max-width: 1600px;
-    //padding: 20px;
-    //font-family: 'Segoe UI', sans-serif;
-    //border: 1px solid #d0d0d0;
-    //border-radius: 6px;
-    //box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+.-form {
+    height: 100%;     /* Use full height of popup */
+    width: 100%;      /* Use full width of popup */
+    margin: 0;        /* Remove margin */
+    padding: 20px;
+    box-sizing: border-box;
 
-
-      height: 100%;     /* Use full height of popup */
-  width: 100%;      /* Use full width of popup */
-  margin: 0;        /* Remove margin */
-  padding: 20px;
-  box-sizing: border-box;
-
-  font-family: 'Segoe UI', sans-serif;
-  border: none;     /* Remove border if not needed */
-  border-radius: 0; /* Optional: square corners */
-  box-shadow: none; /* Optional: remove shadow */
+    font-family: 'Segoe UI', sans-serif;
+    border: none;     /* Remove border if not needed */
+    border-radius: 0; /* Optional: square corners */
+    box-shadow: none; /* Optional: remove shadow */
 }
 
 .name {
@@ -34,16 +24,17 @@
 }
 
 .grid-section {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
     gap: 16px;
+    grid-template-columns: 1fr;
     margin-bottom: 20px;
-    justify-content: space-between;
-    height: 50%;
+
+    @media (min-width: 1220px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 .grid-half {
-    flex: 1;
     min-width: 400px;
     h4 {
         font-size: 1rem;
@@ -60,7 +51,7 @@
 }
 
 .summary-panel {
-    margin: 60px auto;
+    margin: 50px auto;
     border: 1px solid #ccc;
     border-radius: 8px;
     overflow: hidden;
@@ -98,7 +89,8 @@
 
 .save-button {
     text-align: center;
-    margin-top: 75px;
+    margin-top: 20px;
+    //margin-bottom: 20px;
 
     ::ng-deep .dx-button {
         min-width: 100px;

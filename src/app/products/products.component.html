@@ -27,7 +27,7 @@
 </div>
 
 <dx-popup [visible]="popupVisible" [showTitle]="true" title="Edit Recipe" [showCloseButton]="true" [dragEnabled]="false"
-    [minWidth]="1000" [maxWidth]="1500" [minHeight]="500" [maxHeight]="950" (onHiding)="popupVisible = false">
+    [minWidth]="500" [maxWidth]="1500" [minHeight]="300" [maxHeight]="1650" (onHiding)="popupVisible = false">
     <ng-container>
         @if(popupVisible){
         <app-product-form [productId]="selectedProductId" (formSaved)="onFormSaved($event)"></app-product-form>
