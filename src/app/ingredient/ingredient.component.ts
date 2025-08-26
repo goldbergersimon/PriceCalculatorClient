@@ -29,6 +29,7 @@ export class IngredientComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('currency config', this.currency);
+    console.log();
     this.ingredientSvc.getIngredients().subscribe({
       next: (data) => {
         this.ingredients = data;
@@ -104,10 +105,6 @@ export class IngredientComponent implements OnInit {
   }
 
   onEditorPreparing(e: any) {
-    if (e.dataType === 'totalCost' && e.parentType === 'dataRow') {
-      e.editorOptions.format = { type: 'currency', precision: 2 };
-    }
-
     if (e.dataField === 'name' && e.parentType === 'dataRow') {
       const isExistingIngredient: boolean = !!e.row?.data?.ingredientId;
       if (isExistingIngredient) {
