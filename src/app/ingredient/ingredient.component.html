@@ -14,7 +14,8 @@
                 <dxi-item dataField="name">
                     <dxi-validation-rule type="required" message="Name is required"></dxi-validation-rule>
                 </dxi-item>
-                <dxi-item dataField="totalCost" dataType="number" [editorOptions]="currency"></dxi-item>
+                <dxi-item dataField="totalCost" dataType="number" editorType="dxNumberBox"
+                    [editorOptions]="currency"></dxi-item>
                 <dxi-item dataField="cups" dataType="number" [editorOptions]="fixed2"></dxi-item>
                 <dxi-item dataField="pricePerCup" dataType="number" [editorOptions]="readOnlyCurrency"></dxi-item>
                 <dxi-item dataField="tbs" dataType="number" [editorOptions]="fixed0"></dxi-item>
