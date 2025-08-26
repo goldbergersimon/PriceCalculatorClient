@@ -28,8 +28,6 @@ export class IngredientComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    console.log('currency config', this.currency);
-    console.log();
     this.ingredientSvc.getIngredients().subscribe({
       next: (data) => {
         this.ingredients = data;
