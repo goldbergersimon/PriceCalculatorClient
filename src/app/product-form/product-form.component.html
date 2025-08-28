@@ -18,8 +18,9 @@
                 <dx-data-grid [dataSource]="ingredients" [showBorders]="true" [columnAutoWidth]="false"
                     [allowColumnResizing]="false" [rowAlternationEnabled]="true" [paging]="{ enabled: false }"
                     [editing]="{ mode: 'row', allowUpdating: true, allowDeleting: true, allowAdding: true }"
-                    (onFocusedCellChanged)="onFocusedCellChanged($event)" (onRowInserted)="onIngredientIserted($event)"
-                    (onRowUpdated)="onIngredientIserted($event)" (onRowRemoved)="onIngredientRemoved()">
+                    [scrolling]="{ mode: 'virtual' }" height="308" (onFocusedCellChanged)="onFocusedCellChanged($event)"
+                    (onRowInserted)="onIngredientIserted($event)" (onRowUpdated)="onIngredientIserted($event)"
+                    (onRowRemoved)="onIngredientRemoved()">
                     <dxi-column dataField="ingredientId" caption="Ingredient Name">
                         <dxo-lookup [dataSource]="allIngredients" valueExpr="ingredientId"
                             displayExpr="name"></dxo-lookup>
@@ -46,8 +47,8 @@
                 <dx-data-grid [dataSource]="labors" [showBorders]="true" [rowAlternationEnabled]="true"
                     [paging]="{ enabled: false }"
                     [editing]="{ mode: 'row', allowUpdating: true, allowDeleting: true, allowAdding: true }"
-                    (onRowInserted)="onLaborInserted($event)" (onRowUpdated)="onLaborInserted($event)"
-                    (onRowRemoved)="onLaborRemoved()">
+                    [scrolling]="{ mode: 'virtual' }" height="308" (onRowInserted)="onLaborInserted($event)"
+                    (onRowUpdated)="onLaborInserted($event)" (onRowRemoved)="onLaborRemoved()">
                     <dxi-column dataField="laborName" caption="Process Name">
                         <dxi-validation-rule type="required" message="Process name is required"></dxi-validation-rule>
                     </dxi-column>

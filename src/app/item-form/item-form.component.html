@@ -17,6 +17,7 @@
                 <dx-data-grid [dataSource]="ingredients" [showBorders]="true" [columnAutoWidth]="false"
                     [allowColumnResizing]="false" [rowAlternationEnabled]="true" [paging]="{ enabled: false }"
                     [editing]="{ mode: 'row', allowUpdating: true, allowDeleting: true, allowAdding: true }"
+                    [scrolling]="{ mode: 'virtual' }" height="375"
                     (onFocusedCellChanged)="onFocusedCellChangedI($event)" (onRowInserted)="onIngredientIserted($event)"
                     (onRowUpdated)="onIngredientIserted($event)" (onRowRemoved)="onIngredientRemoved()">
                     <dxi-column dataField="ingredientId" caption="Ingredient Name">
@@ -43,6 +44,7 @@
                 <dx-data-grid [dataSource]="products" [showBorders]="true" [columnAutoWidth]="false"
                     [allowColumnResizing]="false" [rowAlternationEnabled]="true" [paging]="{ enabled: false }"
                     [editing]="{ mode: 'row', allowUpdating: true, allowDeleting: true, allowAdding: true }"
+                    [scrolling]="{ mode: 'virtual' }" height="375"
                     (onFocusedCellChanged)="onFocusedCellChangedP($event)" (onRowInserted)="onProductIserted($event)"
                     (onRowUpdated)="onProductIserted($event)" (onRowRemoved)="onProductRemoved()">
                     <dxi-column dataField="productId" caption="Recipe Name">
@@ -68,8 +70,8 @@
                 <dx-data-grid [dataSource]="labors" [showBorders]="true" [rowAlternationEnabled]="true"
                     [paging]="{ enabled: false }"
                     [editing]="{ mode: 'row', allowUpdating: true, allowDeleting: true, allowAdding: true }"
-                    (onRowInserted)="onLaborInserted($event)" (onRowUpdated)="onLaborInserted($event)"
-                    (onRowRemoved)="onLaborRemoved()">
+                    [scrolling]="{ mode: 'virtual' }" height="375" (onRowInserted)="onLaborInserted($event)"
+                    (onRowUpdated)="onLaborInserted($event)" (onRowRemoved)="onLaborRemoved()">
                     <dxi-column dataField="laborName" caption="Process Name">
                         <dxi-validation-rule type="required" message="Process name is required"></dxi-validation-rule>
                     </dxi-column>

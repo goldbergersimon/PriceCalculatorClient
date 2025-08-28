@@ -1,15 +1,14 @@
-.-form {
-    height: 100%;     /* Use full height of popup */
-    width: 100%;      /* Use full width of popup */
-    margin: 0;        /* Remove margin */
+/*.-form {
+    height: 100%;
+    margin: 0;
     padding: 20px;
     box-sizing: border-box;
 
     font-family: 'Segoe UI', sans-serif;
-    border: none;     /* Remove border if not needed */
-    border-radius: 0; /* Optional: square corners */
-    box-shadow: none; /* Optional: remove shadow */
-}
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}*/
 
 .name {
     margin: 0 auto 20px auto;
@@ -43,7 +42,7 @@
         padding-left: 6px;
     }
             ::ng-deep .dx-datagrid {
-            height: 308px;
+            //height: 308px;
             border-radius: 8px;
             border: 1px solid #c0c0c0;
             font-size: 13px;
