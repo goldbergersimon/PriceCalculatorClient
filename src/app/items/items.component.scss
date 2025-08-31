@@ -2,3 +2,13 @@
     padding-top: 8px;
     padding-bottom: 8px;
 }
+
+.loading-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    height: 300px;
+    font-size: 16px;
+    gap: 10px;
+}

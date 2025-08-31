@@ -29,6 +29,7 @@ export class AppComponent implements OnInit {
   private router = inject(Router);
   private loginService = inject(LoginService);
   logedIn = this.loginService.logedIn;
+  loading = this.loginService.loading;
 
   ngOnInit(): void {
     if (this.loginService.isLogedIn()) {
@@ -38,10 +39,11 @@ export class AppComponent implements OnInit {
   }
 
   onTabClick(e: any) {
-    if (this.logedIn()) this.router.navigateByUrl(e.itemData.path);
+    if (this.logedIn() && !this.loading())
+      this.router.navigateByUrl(e.itemData.path);
   }
   onSettingsButtonClick() {
-    if (this.logedIn()) this.showSettings = true;
+    if (this.logedIn() && !this.loading()) this.showSettings = true;
   }
 
   onLoginButtonClick() {
@@ -49,9 +51,11 @@ export class AppComponent implements OnInit {
   }
 
   onLogoutButtonClick() {
-    this.router.navigate(['/login']);
-    this.loginService.logedIn.set(false);
-    this.loginService.logout();
+    if (this.loading()) {
+      this.router.navigate(['/login']);
+      this.loginService.logedIn.set(false);
+      this.loginService.logout();
+    }
   }
 
   onSettingsSaved() {

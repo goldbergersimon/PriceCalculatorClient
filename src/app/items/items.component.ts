@@ -2,10 +2,16 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { DxDataGridModule } from 'devextreme-angular/ui/data-grid';
 import { ItemService } from '../item.service';
-import { DxButtonModule, DxPopupModule } from 'devextreme-angular';
+import {
+  DxButtonModule,
+  DxLoadIndicatorModule,
+  DxPopupModule,
+} from 'devextreme-angular';
 import { ItemFormComponent } from '../item-form/item-form.component';
 import { confirm } from 'devextreme/ui/dialog';
 import { IItemList } from '../models/item.models';
+import notify from 'devextreme/ui/notify';
+import { LoginService } from '../login.service';
 
 @Component({
   selector: 'app-items',
@@ -16,6 +22,7 @@ import { IItemList } from '../models/item.models';
     DxButtonModule,
     DxPopupModule,
     ItemFormComponent,
+    DxLoadIndicatorModule,
   ],
   templateUrl: './items.component.html',
   styleUrl: './items.component.scss',
@@ -25,13 +32,24 @@ export class ItemsComponent implements OnInit {
   popupVisible: boolean = false;
   selectedItemId?: number;
   itemSvc = inject(ItemService);
+  loginService = inject(LoginService);
+  loading = this.loginService.loading;
 
   constructor() {}
 
   ngOnInit(): void {
+    this.loading.set(true);
+
     this.itemSvc.getAllItems().subscribe({
-      next: (data) => (this.items = data),
-      error: (err) => console.error('Faild to load items', err),
+      next: (data) => {
+        this.items = data;
+        this.loading.set(false);
+      },
+      error: (err) => {
+        console.error('Faild to load items', err);
+        this.loading.set(false);
+        notify('Faild to load items', 'error', 3000);
+      },
     });
   }
 

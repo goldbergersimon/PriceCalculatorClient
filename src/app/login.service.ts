@@ -23,6 +23,7 @@ export class LoginService {
   private apiUrl = `${environment.apiUrl}/login`; //'https://localhost:7292/api/login';
 
   logedIn = signal(false);
+  loading = signal(false);
   private isRefreshing: boolean = false;
   isLoggedOut: boolean = false;
   private refreshTokenSubject = new ReplaySubject<string>(1);
