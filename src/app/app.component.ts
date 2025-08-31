@@ -51,7 +51,7 @@ export class AppComponent implements OnInit {
   }
 
   onLogoutButtonClick() {
-    if (this.loading()) {
+    if (!this.loading()) {
       this.router.navigate(['/login']);
       this.loginService.logedIn.set(false);
       this.loginService.logout();
