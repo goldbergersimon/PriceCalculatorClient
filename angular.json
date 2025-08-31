@@ -59,6 +59,14 @@
                 }
               ]
             },
+            "prod-alt": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/enviroment.prod-alt.ts"
+                }
+              ]
+            },
             "development": {
               "optimization": false,
               "extractLicenses": false,

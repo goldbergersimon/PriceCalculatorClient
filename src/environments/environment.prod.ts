@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://pricecalculator-e3dybwbafydea7h0.eastus2-01.azurewebsites.net/api',
+  apiUrl:
+    'https://repricer-api-dyb8fqaeh4gahnaz.eastus2-01.azurewebsites.net/api',
 };
