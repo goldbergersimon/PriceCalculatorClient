@@ -11,22 +11,23 @@ import {
   DxDataGridComponent,
   DxDataGridModule,
 } from 'devextreme-angular/ui/data-grid';
-import { DxButtonModule } from 'devextreme-angular';
+import { DxButtonModule, DxLoadIndicatorModule } from 'devextreme-angular';
 import notify from 'devextreme/ui/notify';
 
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [DxDataGridModule, DxButtonModule],
+  imports: [DxDataGridModule, DxButtonModule, DxLoadIndicatorModule],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss',
 })
 export class SettingsComponent implements OnInit {
   settingsSvc = inject(SettingService);
   @Output() settingsUpdated = new EventEmitter<void>();
-  @ViewChild(DxDataGridComponent, { static: true })
+  @ViewChild(DxDataGridComponent, { static: false })
   dataGrid!: DxDataGridComponent;
   settings: Settings[] = [];
+  updating: boolean = false;
 
   ngOnInit(): void {
     this.settingsSvc.get().subscribe({
@@ -46,11 +47,15 @@ export class SettingsComponent implements OnInit {
 
   saveSettings() {
     this.dataGrid.instance.saveEditData();
+    this.updating = true;
     this.settingsSvc.SaveSettings(this.settings).subscribe({
       next: () => {
+        this.updating = false;
         this.settingsUpdated.emit();
       },
       error: (err) => {
+        this.updating = false;
+        this.settingsUpdated.emit();
         console.error('Error saving settings', err);
         notify('Error saving settings', 'error', 4000);
       },

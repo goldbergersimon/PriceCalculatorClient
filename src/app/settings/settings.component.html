@@ -1,9 +1,20 @@
-<div class="settings-grid">
-    <dx-data-grid [dataSource]="settings" [showColumnHeaders]="false" [editing]="{ mode: 'cell', allowUpdating: true }">
-        <dxi-column dataField="key" [allowEditing]="false" [calculateCellValue]="formatKey"></dxi-column>
-        <dxi-column dataField="value" [allowEditing]="true"></dxi-column>
-    </dx-data-grid>
-</div>
-<div class="save-button">
-    <dx-button text="Save" type="success" (onClick)="saveSettings()"></dx-button>
+<div>
+    @if (updating) {
+    <div class="updating-indicator">
+        <dx-load-indicator [height]="60" [width]="60"></dx-load-indicator>
+        <div>Please wait...</div>
+        <div>Recalculating all items</div>
+    </div>
+    } @else {
+    <div class="settings-grid">
+        <dx-data-grid [dataSource]="settings" [showColumnHeaders]="false"
+            [editing]="{ mode: 'cell', allowUpdating: true }">
+            <dxi-column dataField="key" [allowEditing]="false" [calculateCellValue]="formatKey"></dxi-column>
+            <dxi-column dataField="value" [allowEditing]="true"></dxi-column>
+        </dx-data-grid>
+    </div>
+    <div class="save-button">
+        <dx-button text="Save" type="success" (onClick)="saveSettings()"></dx-button>
+    </div>
+    }
 </div>

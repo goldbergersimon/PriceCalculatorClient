@@ -2,7 +2,8 @@
     <dx-data-grid [dataSource]="products" [showBorders]="true" [columnAutoWidth]="false" [allowColumnResizing]="true"
         [rowAlternationEnabled]="true"
         [searchPanel]="{visible: true, highlightSearchText: true, width: 400, placeholder: 'Search recipes...'}"
-        class="grid-bordered" (onFocusedRowChanged)="selectedProductId = $event.row?.data.productId">
+        [loadPanel]="{enabled: true, text: 'Loading...', showIndicator: true, showPane: true}" class="grid-bordered"
+        (onFocusedRowChanged)="selectedProductId = $event.row?.data.productId">
         <dxo-toolbar>
             <dxi-item>
                 <dx-button icon="add" stylingMode="text" (click)="openForm()"></dx-button>
