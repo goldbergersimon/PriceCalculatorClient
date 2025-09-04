@@ -14,6 +14,7 @@ export class ItemService {
   constructor() {}
 
   getAllItems(): Observable<IItemList[]> {
+    console.log('Fetching all items from', this.apiUrl);
     return this.http.get<IItemList[]>(this.apiUrl);
   }
 

@@ -44,6 +44,7 @@ export class ItemsComponent implements OnInit {
 
     this.itemSvc.getAllItems().subscribe({
       next: (data) => {
+        console.log('Items loaded:', data);
         this.items = data;
         this.loading.set(false);
       },
