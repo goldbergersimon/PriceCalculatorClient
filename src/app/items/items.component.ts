@@ -40,6 +40,8 @@ export class ItemsComponent implements OnInit {
   ngOnInit(): void {
     this.loading.set(true);
 
+    console.log('Loading items...');
+
     this.itemSvc.getAllItems().subscribe({
       next: (data) => {
         this.items = data;
