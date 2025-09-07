@@ -104,7 +104,15 @@
                             </tr>
                             <tr>
                                 <td><strong>Office expenses:</strong></td>
-                                <td>{{item.officeExpenses | currency}}</td>
+                                <td>
+                                    <div style="text-align: center; position: relative;">
+                                        <span>{{item.officeExpenses | currency}}</span>
+                                        <dx-switch
+                                            style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%);"
+                                            [(value)]="item.includeOfficeExpenses"
+                                            (onValueChanged)="changeOfficeExpenses($event)"></dx-switch>
+                                    </div>
+                                </td>
                             </tr>
                             <tr>
                                 <td><strong>Total Cost:</strong></td>
@@ -160,6 +168,22 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="box-table">
+            <table>
+                <tr>
+                    <th>Pieces per box</th>
+                    <th>Retail</th>
+                    <th>Wholesale</th>
+                    <th>Own</th>
+                <tr>
+                    <td><input [(ngModel)]="item.piecesPerBox" name="piecesPerBox" type="number" min="0"
+                            (ngModelChange)="onInputChanged()" /></td>
+                    <td>{{item.retailBox | currency}}</td>
+                    <td>{{item.wholesaleBox |currency}}</td>
+                    <td>{{item.ownBox | currency}}</td>
+                </tr>
+            </table>
         </div>
 
         <!-- Save Button -->

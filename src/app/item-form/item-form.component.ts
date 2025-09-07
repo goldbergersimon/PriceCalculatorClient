@@ -12,6 +12,7 @@ import {
   DxButtonModule,
   DxDataGridModule,
   DxNumberBoxModule,
+  DxSwitchModule,
   DxTextBoxModule,
 } from 'devextreme-angular';
 import { ItemService } from '../item.service';
@@ -20,6 +21,7 @@ import { ProductService } from '../product.service';
 import { IngredientService } from '../ingredient.service';
 import { Item } from 'devextreme/ui/toolbar';
 import { Ingredient } from '../models/ingredient.models';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-item-form',
@@ -31,6 +33,7 @@ import { Ingredient } from '../models/ingredient.models';
     DxDataGridModule,
     DxButtonModule,
     DxNumberBoxModule,
+    DxSwitchModule,
   ],
   templateUrl: './item-form.component.html',
   styleUrl: './item-form.component.scss',
@@ -75,6 +78,7 @@ export class ItemFormComponent implements OnInit {
       });
     } else {
       this.item = {};
+      this.item.includeOfficeExpenses = true;
       this.itemSvc.getOfficeExpences().subscribe({
         next: (value) => {
           this.item.officeExpenses = value;
@@ -255,6 +259,7 @@ export class ItemFormComponent implements OnInit {
       next: (result) => {
         this.item.retailPrice = result.selling;
         this.item.retailProfit = result.profit;
+        this.calculateBoxPrices();
       },
       error: (err) => {
         console.error('Failed to calculate retail price', err);
@@ -271,6 +276,7 @@ export class ItemFormComponent implements OnInit {
       next: (result) => {
         this.item.wholesalePrice = result.selling;
         this.item.wholesaleProfit = result.profit;
+        this.calculateBoxPrices();
       },
       error: (err) => {
         console.error('Failed to calculate retail price', err);
@@ -287,6 +293,7 @@ export class ItemFormComponent implements OnInit {
       next: (result) => {
         this.item.ownProfit = result.profit;
         this.item.ownMargin = result.margin;
+        this.calculateBoxPrices();
       },
       error: (err) => {
         console.error('Failed to calculate own price', err);
@@ -294,47 +301,87 @@ export class ItemFormComponent implements OnInit {
     });
   }
 
-  retailChanged(e: any) {}
-
-  wholesaleChanged(e: any) {}
-
-  ownChanged(e: any) {}
-
-  recalculateMarginsAndProfits(): void {
+  recalculateMarginsAndProfits() {
     const cost = this.item.costPrice;
 
+    const requests = [];
+
     if (this.item.retailMargin > 0) {
-      this.itemSvc
-        .CalculateProfitMargin({ margin: this.item.retailMargin, cost })
-        .subscribe({
-          next: (result) => {
-            this.item.retailPrice = result.selling;
-            this.item.retailProfit = result.profit;
-          },
-        });
+      requests.push(
+        this.itemSvc.CalculateProfitMargin({
+          margin: this.item.retailMargin,
+          cost,
+        })
+      );
     }
-
     if (this.item.wholesaleMargin > 0) {
-      this.itemSvc
-        .CalculateProfitMargin({ margin: this.item.wholesaleMargin, cost })
-        .subscribe({
-          next: (result) => {
-            this.item.wholesalePrice = result.selling;
-            this.item.wholesaleProfit = result.profit;
-          },
-        });
+      requests.push(
+        this.itemSvc.CalculateProfitMargin({
+          margin: this.item.wholesaleMargin,
+          cost,
+        })
+      );
+    }
+    if (this.item.ownPrice > 0) {
+      requests.push(
+        this.itemSvc.CalculateMarginProfit({
+          selling: this.item.ownPrice,
+          cost,
+        })
+      );
     }
 
-    if (this.item.ownPrice > 0) {
-      this.itemSvc
-        .CalculateMarginProfit({ selling: this.item.ownPrice, cost })
-        .subscribe({
-          next: (result) => {
-            this.item.ownProfit = result.profit;
-            this.item.ownMargin = result.margin;
-          },
-        });
+    if (requests.length > 0) {
+      forkJoin(requests).subscribe({
+        next: (results) => {
+          if (this.item.retailMargin > 0) {
+            const retailResult = results.shift();
+            this.item.retailPrice = retailResult?.selling;
+            this.item.retailProfit = retailResult?.profit;
+          }
+          if (this.item.wholesaleMargin > 0) {
+            const wholesaleResult = results.shift();
+            this.item.wholesalePrice = wholesaleResult?.selling;
+            this.item.wholesaleProfit = wholesaleResult?.profit;
+          }
+          if (this.item.ownPrice > 0) {
+            const ownResult = results.shift();
+            this.item.ownProfit = ownResult?.profit;
+            this.item.ownMargin = ownResult?.margin;
+          }
+          this.calculateBoxPrices();
+        },
+      });
     }
+  }
+
+  changeOfficeExpenses(e: any): void {
+    const on: boolean = e.value;
+    if (on) {
+      this.itemSvc.getOfficeExpences().subscribe({
+        next: (value) => {
+          this.item.officeExpenses = value;
+          this.calculateTotal();
+        },
+        error: (err) => {
+          console.error('error', err);
+        },
+      });
+    } else {
+      this.item.officeExpenses = 0;
+      this.calculateTotal();
+    }
+  }
+
+  onInputChanged() {
+    this.calculateBoxPrices();
+  }
+
+  calculateBoxPrices() {
+    const piecesPerBox: number = this.item.piecesPerBox;
+    this.item.retailBox = this.item.retailPrice * piecesPerBox;
+    this.item.wholesaleBox = this.item.wholesalePrice * piecesPerBox;
+    this.item.ownBox = this.item.ownPrice * piecesPerBox;
   }
 
   saveItem() {

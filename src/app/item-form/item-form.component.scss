@@ -140,6 +140,37 @@
     }
 }
 
+.box-table {
+    margin: 20px auto;
+    text-align: center;
+
+    table {
+        margin: 0 auto;
+        border: solid 1px #cfcfcf;
+        border-radius: 8px;
+        width: 50%;
+    }
+
+    td {
+        padding: 12px 20px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #333;
+        text-align: center;
+        border: none;
+        width: 25%;
+
+        input {
+            width: 90%;
+            padding: 6px 10px;
+            font-size: 14px;
+            border: 1px solid #d6d6d6;
+            border-radius: 8px;
+            text-align: center;
+        }
+    }
+}
+
 .save-button {
     text-align: center;
     margin-top: 75px;
