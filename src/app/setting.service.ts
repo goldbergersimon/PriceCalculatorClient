@@ -30,7 +30,7 @@ export class SettingService {
     return this.http.get<Settings[]>(this.apiUrl);
   }
 
-  SaveSettings(settings: Settings[]): Observable<any> {
-    return this.http.post<any>(this.apiUrl, settings);
+  SaveSettings(settings: Settings[]): Observable<void> {
+    return this.http.post<void>(this.apiUrl, settings);
   }
 }

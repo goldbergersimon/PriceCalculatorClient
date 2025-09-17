@@ -8,10 +8,8 @@ import { environment } from '../environments/environment';
   providedIn: 'root',
 })
 export class ProductService {
-  private apiUrl: string = `${environment.apiUrl}/product`; //'https://localhost:7292/api/product';
+  private apiUrl = `${environment.apiUrl}/product`; //'https://localhost:7292/api/product';
   http = inject(HttpClient);
-
-  constructor() {}
 
   getProducts(): Observable<IProductList[]> {
     return this.http.get<IProductList[]>(this.apiUrl);
@@ -21,7 +19,7 @@ export class ProductService {
     return this.http.get<IProduct>(`${this.apiUrl}/${id}`);
   }
 
-  saveProduct(product: any): Observable<IProductList> {
+  saveProduct(product: IProduct): Observable<IProductList> {
     if (!product.productId) {
       return this.http.post<IProductList>(this.apiUrl, product);
     } else {
@@ -32,8 +30,8 @@ export class ProductService {
     }
   }
 
-  deleteProduct(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/${id}`);
+  deleteProduct(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
   calculateIngredientCost(ingredient: any): Observable<number> {
@@ -43,8 +41,8 @@ export class ProductService {
     );
   }
 
-  calculateLabor(labor: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/calculate-labor`, labor);
+  calculateLabor(labor: any): Observable<string> {
+    return this.http.post<string>(`${this.apiUrl}/calculate-labor`, labor);
   }
 
   calculateTotalIngredientCost(totals: number[]): Observable<number> {

@@ -8,6 +8,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+
 import {
   DxButtonModule,
   DxDataGridModule,
@@ -15,13 +16,29 @@ import {
   DxSwitchModule,
   DxTextBoxModule,
 } from 'devextreme-angular';
-import { ItemService } from '../item.service';
 import notify from 'devextreme/ui/notify';
+import {
+  FocusedCellChangedEvent,
+  RowInsertedEvent,
+} from 'devextreme/ui/data_grid';
+import { ValueChangedEvent } from 'devextreme/ui/number_box';
+import { ValueChangedEvent as SwitchChangedEvent } from 'devextreme/ui/switch';
+
+import { forkJoin } from 'rxjs';
+
+import { ItemService } from '../item.service';
 import { ProductService } from '../product.service';
 import { IngredientService } from '../ingredient.service';
-import { Item } from 'devextreme/ui/toolbar';
-import { Ingredient } from '../models/ingredient.models';
-import { forkJoin } from 'rxjs';
+import { IIngredient } from '../models/ingredient.models';
+import {
+  IItem,
+  IItemIngredient,
+  IItemLabor,
+  IItemList,
+  IItemProduct,
+} from '../models/item.models';
+import { IProductList } from '../models/product.models';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-item-form',
@@ -43,15 +60,15 @@ export class ItemFormComponent implements OnInit {
   itemSvc = inject(ItemService);
   productSvc = inject(ProductService);
   ingredientSvc = inject(IngredientService);
-  @Output() formSaved = new EventEmitter<Item>();
-  item: any = {};
-  products: any[] = [];
-  labors: any[] = [];
-  ingredients: any[] = [];
+  @Output() formSaved = new EventEmitter<IItemList>();
+  item: IItem = {} as IItem;
+  products: IItemProduct[] = [];
+  labors: IItemLabor[] = [];
+  ingredients: IItemIngredient[] = [];
   productUnits: string[] = [];
   ingredientUnits: string[] = [];
-  allProducts: any[] = [];
-  allIngredients: any[] = [];
+  allProducts: IProductList[] = [];
+  allIngredients: IIngredient[] = [];
 
   durationEditorOptions = {
     mask: '00:00:00',
@@ -63,7 +80,7 @@ export class ItemFormComponent implements OnInit {
     const id = this.itemId();
     if (id != undefined) {
       this.itemSvc.getItemById(id).subscribe({
-        next: (data) => {
+        next: (data: IItem) => {
           this.item = data;
           this.products = data.products ?? [];
           this.labors = data.labors ?? [];
@@ -71,51 +88,51 @@ export class ItemFormComponent implements OnInit {
 
           console.log('Loaded item:', this.item);
         },
-        error: (err) => {
+        error: (err: HttpErrorResponse) => {
           console.error('Failed to load item', err);
           notify('Failed to load item details', 'error', 4000);
         },
       });
     } else {
-      this.item = {};
+      this.item = {} as IItem;
       this.item.includeOfficeExpenses = true;
       this.itemSvc.getOfficeExpences().subscribe({
-        next: (value) => {
+        next: (value: number) => {
           this.item.officeExpenses = value;
         },
-        error: (err) => {
+        error: (err: HttpErrorResponse) => {
           console.error('error', err);
         },
       });
     }
 
     this.productSvc.getProducts().subscribe({
-      next: (data: any[]) => {
+      next: (data: IProductList[]) => {
         this.allProducts = data;
       },
-      error: (err: any) => {
+      error: (err: HttpErrorResponse) => {
         console.error('Failed to load products', err);
       },
     });
     this.ingredientSvc.getIngredients().subscribe({
-      next: (data: Ingredient[]) => {
+      next: (data: IIngredient[]) => {
         this.allIngredients = data;
       },
-      error: (err: any) => {
+      error: (err: HttpErrorResponse) => {
         console.error('Failed to load ingredients', err);
       },
     });
   }
 
-  onFocusedCellChangedP(e: any) {
-    if (e.column.dataField === 'unit') {
-      const productId: number = e.row.data.productId;
+  onFocusedCellChangedP(e: FocusedCellChangedEvent): void {
+    if (e.column?.dataField === 'unit') {
+      const productId: number = e.row?.data.productId;
       this.getProductUnits(productId);
     }
   }
-  onFocusedCellChangedI(e: any) {
-    if (e.column.dataField === 'unit') {
-      const ingredientId: number = e.row.data.ingredientId;
+  onFocusedCellChangedI(e: FocusedCellChangedEvent): void {
+    if (e.column?.dataField === 'unit') {
+      const ingredientId: number = e.row?.data.ingredientId;
       this.getIngredientUnits(ingredientId);
     }
   }
@@ -128,13 +145,12 @@ export class ItemFormComponent implements OnInit {
       if (ingredient.tbs > 0) this.ingredientUnits.push('Tbs');
       if (ingredient.tsp > 0) this.ingredientUnits.push('Tsp');
       if (ingredient.pieces > 0) this.ingredientUnits.push('Pieces');
-      if (ingredient.containers > 0) this.ingredientUnits.push('Containers');
       if (ingredient.pounds > 0) this.ingredientUnits.push('Pounds');
       if (ingredient.oz > 0) this.ingredientUnits.push('Oz');
     }
   }
 
-  formatLaborTime = (rowData: any): string => {
+  formatLaborTime = (rowData: IItemLabor): string => {
     const rew: string = rowData.totalLaborPerItem;
     if (!rew) return '00:00:00';
 
@@ -145,13 +161,13 @@ export class ItemFormComponent implements OnInit {
     this.productUnits = [];
     const product = this.allProducts.find((x) => x.productId === id);
     if (product) {
-      if (product.container > 0) this.productUnits.push('Containers');
-      if (product.pieces > 0) this.productUnits.push('Pieces');
-      if (product.oz > 0) this.productUnits.push('Oz');
+      if ((product.container ?? 0) > 0) this.productUnits.push('Containers');
+      if ((product.pieces ?? 0) > 0) this.productUnits.push('Pieces');
+      if ((product.oz ?? 0) > 0) this.productUnits.push('Oz');
     }
   }
-  onProductIserted(e: any) {
-    const product = e.data;
+  onProductIserted(e: RowInsertedEvent): void {
+    const product: IItemProduct = e.data;
     console.log('Inserting product:', product);
     this.itemSvc.calculateProductCost(product).subscribe({
       next: (cost: number) => {
@@ -159,13 +175,13 @@ export class ItemFormComponent implements OnInit {
         e.component.refresh();
         this.calculateTotalMaterialCost();
       },
-      error: (err: any) => {
+      error: (err: HttpErrorResponse) => {
         console.error('Failed to calculate product cost', err);
       },
     });
   }
-  onIngredientIserted(e: any) {
-    const ingredient: any = e.data;
+  onIngredientIserted(e: RowInsertedEvent) {
+    const ingredient: IItemIngredient = e.data;
 
     this.itemSvc.calculateIngredientCost(ingredient).subscribe({
       next: (cost: number) => {
@@ -174,21 +190,21 @@ export class ItemFormComponent implements OnInit {
 
         this.calculateTotalMaterialCost();
       },
-      error: (err: any) => {
+      error: (err: HttpErrorResponse) => {
         console.error('Failed to calculate ingredient cost', err);
       },
     });
   }
-  onLaborInserted(e: any): void {
+  onLaborInserted(e: RowInsertedEvent): void {
     const labor = e.data;
     this.productSvc.calculateLabor(labor).subscribe({
-      next: (result: any) => {
+      next: (result: string) => {
         labor.totalLaborPerItem = result;
         e.component.refresh();
 
         this.calculateTotalLaborCost();
       },
-      error: (err: any) => {
+      error: (err: HttpErrorResponse) => {
         console.error('Failed to calculate labor cost', err);
       },
     });
@@ -220,7 +236,7 @@ export class ItemFormComponent implements OnInit {
         this.item.materialCost = total;
         this.calculateTotal();
       },
-      error: (err: any) => {
+      error: (err: HttpErrorResponse) => {
         console.error('Failed to calculate total ingredient cost', err);
       },
     });
@@ -236,7 +252,7 @@ export class ItemFormComponent implements OnInit {
         this.item.laborCost = total;
         this.calculateTotal();
       },
-      error: (err: any) => {
+      error: (err: HttpErrorResponse) => {
         console.error('Failed to calculate total labor cost', err);
       },
     });
@@ -250,7 +266,7 @@ export class ItemFormComponent implements OnInit {
     this.recalculateMarginsAndProfits();
   }
 
-  onRetailChanged(e: any) {
+  onRetailChanged(e: ValueChangedEvent) {
     const margin: number = e.value;
     const cost: number = this.item.costPrice;
 
@@ -261,13 +277,13 @@ export class ItemFormComponent implements OnInit {
         this.item.retailProfit = result.profit;
         this.calculateBoxPrices();
       },
-      error: (err) => {
+      error: (err: HttpErrorResponse) => {
         console.error('Failed to calculate retail price', err);
       },
     });
   }
 
-  onWholesaleChanged(e: any) {
+  onWholesaleChanged(e: ValueChangedEvent) {
     const margin: number = e.value;
     const cost = this.item.costPrice;
 
@@ -278,13 +294,13 @@ export class ItemFormComponent implements OnInit {
         this.item.wholesaleProfit = result.profit;
         this.calculateBoxPrices();
       },
-      error: (err) => {
+      error: (err: HttpErrorResponse) => {
         console.error('Failed to calculate retail price', err);
       },
     });
   }
 
-  onOwnChanged(e: any) {
+  onOwnChanged(e: ValueChangedEvent) {
     const selling: number = e.value;
     const cost: number = this.item.costPrice;
 
@@ -295,7 +311,7 @@ export class ItemFormComponent implements OnInit {
         this.item.ownMargin = result.margin;
         this.calculateBoxPrices();
       },
-      error: (err) => {
+      error: (err: HttpErrorResponse) => {
         console.error('Failed to calculate own price', err);
       },
     });
@@ -355,7 +371,7 @@ export class ItemFormComponent implements OnInit {
     }
   }
 
-  changeOfficeExpenses(e: any): void {
+  changeOfficeExpenses(e: SwitchChangedEvent): void {
     const on: boolean = e.value;
     if (on) {
       this.itemSvc.getOfficeExpences().subscribe({
@@ -363,7 +379,7 @@ export class ItemFormComponent implements OnInit {
           this.item.officeExpenses = value;
           this.calculateTotal();
         },
-        error: (err) => {
+        error: (err: HttpErrorResponse) => {
           console.error('error', err);
         },
       });
@@ -392,7 +408,7 @@ export class ItemFormComponent implements OnInit {
       next: (data) => {
         this.formSaved.emit(data);
       },
-      error: (err) => {
+      error: (err: HttpErrorResponse) => {
         console.error('Failed to save item', err);
         notify('Failed to save item', 'error', 4000);
       },

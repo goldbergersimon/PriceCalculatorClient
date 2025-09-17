@@ -24,10 +24,8 @@ import { IProductList } from '../models/product.models';
 export class ProductsComponent implements OnInit {
   products: IProductList[] = [];
   selectedProductId?: number;
-  popupVisible: boolean = false;
+  popupVisible = false;
   productSvc = inject(ProductService);
-
-  constructor() {}
 
   ngOnInit(): void {
     this.productSvc.getProducts().subscribe({

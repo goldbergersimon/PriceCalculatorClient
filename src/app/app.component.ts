@@ -5,6 +5,7 @@ import { DxButtonModule, DxPopupModule } from 'devextreme-angular';
 import { DxTabsModule } from 'devextreme-angular/ui/tabs';
 import { SettingsComponent } from './settings/settings.component';
 import { LoginService } from './login.service';
+import { ItemClickEvent } from 'devextreme/ui/tabs';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +26,7 @@ export class AppComponent implements OnInit {
     { text: 'Recipes', path: '/recipes' },
     { text: 'Ingredients', path: '/ingredients' },
   ];
-  showSettings: boolean = false;
+  showSettings = false;
   private router = inject(Router);
   private loginService = inject(LoginService);
   logedIn = this.loginService.logedIn;
@@ -38,7 +39,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  onTabClick(e: any) {
+  onTabClick(e: ItemClickEvent) {
     if (this.logedIn() && !this.loading())
       this.router.navigateByUrl(e.itemData.path);
   }

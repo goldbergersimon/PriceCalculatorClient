@@ -12,9 +12,10 @@ import { DxTextBoxModule, DxButtonModule } from 'devextreme-angular';
   styleUrl: './login-form.component.scss',
 })
 export class LoginFormComponent {
-  username: string = '';
-  password: string = '';
-  rememberMe: boolean = false;
+  username = '';
+  password = '';
+  rememberMe = false;
+  showPassword = false;
   private loginService = inject(LoginService);
   private router = inject(Router);
 
@@ -39,5 +40,9 @@ export class LoginFormComponent {
           },
         });
     }
+  }
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
   }
 }

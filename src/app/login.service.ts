@@ -24,8 +24,8 @@ export class LoginService {
 
   logedIn = signal(false);
   loading = signal(false);
-  private isRefreshing: boolean = false;
-  isLoggedOut: boolean = false;
+  private isRefreshing = false;
+  isLoggedOut = false;
   private refreshTokenSubject = new ReplaySubject<string>(1);
 
   login(

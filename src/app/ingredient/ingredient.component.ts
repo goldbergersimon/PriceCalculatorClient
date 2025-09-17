@@ -3,7 +3,15 @@ import { DxDataGridModule } from 'devextreme-angular/ui/data-grid';
 import { IngredientService } from '../ingredient.service';
 import { CommonModule } from '@angular/common';
 import notify from 'devextreme/ui/notify';
-import { Ingredient } from '../models/ingredient.models';
+import { IIngredient } from '../models/ingredient.models';
+import {
+  EditorPreparingEvent,
+  RowInsertingEvent,
+  RowRemovingEvent,
+  RowUpdatingEvent,
+  RowValidatingEvent,
+} from 'devextreme/ui/data_grid';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-ingredient',
@@ -13,10 +21,8 @@ import { Ingredient } from '../models/ingredient.models';
   styleUrl: './ingredient.component.scss',
 })
 export class IngredientComponent implements OnInit {
-  ingredients: Ingredient[] = [];
+  ingredients: IIngredient[] = [];
   ingredientSvc = inject(IngredientService);
-
-  constructor() {}
 
   public currency = { format: { type: 'currency', precision: 2 } };
   fixed2 = { format: { type: 'fixedPoint', precision: 2 } };
@@ -39,16 +45,16 @@ export class IngredientComponent implements OnInit {
     });
   }
 
-  onRowValidating(e: any) {
-    const name = e.newData?.name ?? e.oldData?.name ?? '';
+  onRowValidating(e: RowValidatingEvent): void {
+    const name: string = e.newData?.name ?? e.oldData?.name ?? '';
     if (!name || !name.trim()) {
       e.isValid = false;
       e.errorText = 'Name is required.';
     }
   }
 
-  onRowInserting(e: any): void {
-    const newIngredient: Ingredient = e.data;
+  onRowInserting(e: RowInsertingEvent): void {
+    const newIngredient: IIngredient = e.data;
 
     e.cancel = true; // Prevent the default insert action
     this.ingredientSvc.createIngredient(newIngredient).subscribe({
@@ -56,15 +62,15 @@ export class IngredientComponent implements OnInit {
         this.ingredients.push(data);
         e.component.cancelEditData();
       },
-      error: (err) => {
+      error: (err: HttpErrorResponse) => {
         console.error('Error creating ingredient:', err);
         notify('Failed to add ingredient.', 'error', 4000);
       },
     });
   }
 
-  onRowUpdating(e: any) {
-    const updatedData: Ingredient = { ...e.oldData, ...e.newData };
+  onRowUpdating(e: RowUpdatingEvent): void {
+    const updatedData: IIngredient = { ...e.oldData, ...e.newData };
 
     this.ingredientSvc
       .updateIngredient(updatedData.ingredientId, updatedData)
@@ -73,14 +79,14 @@ export class IngredientComponent implements OnInit {
           console.log('Ingredient updated successfully', result);
           this.ingredients = [...this.ingredients];
         },
-        error: (err) => {
+        error: (err: HttpErrorResponse) => {
           console.error('Error updating ingredient:', err);
           notify('Ingredient not updated', 'error', 4000);
         },
       });
   }
 
-  onRowRemoving(e: any) {
+  onRowRemoving(e: RowRemovingEvent): void {
     e.cancel = true; // Prevent the default delete action
     this.ingredientSvc.deleteIngredient(e.data.ingredientId).subscribe({
       next: () => {
@@ -89,7 +95,7 @@ export class IngredientComponent implements OnInit {
         );
         console.log('Ingredient deleted successfully');
       },
-      error: (err: any) => {
+      error: (err: HttpErrorResponse) => {
         console.error('Error deleting ingredient:', err);
         if (err.status === 400 && err.error?.message) {
           notify(err.error.message, 'error', 4000);
@@ -102,9 +108,9 @@ export class IngredientComponent implements OnInit {
     });
   }
 
-  onEditorPreparing(e: any) {
+  onEditorPreparing(e: EditorPreparingEvent): void {
     if (e.dataField === 'name' && e.parentType === 'dataRow') {
-      const isExistingIngredient: boolean = !!e.row?.data?.ingredientId;
+      const isExistingIngredient = !!e.row?.data?.ingredientId;
       if (isExistingIngredient) {
         e.editorOptions.readOnly = true; // Disable editing for existing ingredients
       }
@@ -113,7 +119,7 @@ export class IngredientComponent implements OnInit {
     if (
       e.parentType === 'dataRow' &&
       ['cups', 'tbs', 'tsp', 'pieces', 'pounds', 'oz', 'totalCost'].includes(
-        e.dataField
+        e.dataField as string
       )
     ) {
       const originalOnValueChanged = e.editorOptions.onValueChanged;
@@ -129,7 +135,7 @@ export class IngredientComponent implements OnInit {
           +e.component.cellValue(rowIndex, field) || 0;
         const round = (value: number) => Math.round(value * 100) / 100;
 
-        const editField = e.dataField;
+        const editField = e.dataField as string;
         const value = get(editField);
 
         // Calculate tbs & tsp from cups

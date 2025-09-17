@@ -18,8 +18,18 @@ import {
 } from 'devextreme-angular';
 import notify from 'devextreme/ui/notify';
 import { IngredientService } from '../ingredient.service';
-import { Ingredient } from '../models/ingredient.models';
-import { IProductList } from '../models/product.models';
+import { IIngredient } from '../models/ingredient.models';
+import {
+  IProduct,
+  IProductIngredient,
+  IProductLabor,
+  IProductList,
+} from '../models/product.models';
+import {
+  FocusedCellChangedEvent,
+  RowInsertedEvent,
+} from 'devextreme/ui/data_grid';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-product-form',
@@ -40,15 +50,13 @@ export class ProductFormComponent implements OnInit {
   productId = input<number>();
   @Output() formSaved = new EventEmitter<IProductList>();
 
-  product: any = {};
-  ingredients: any[] = [];
-  labors: any[] = [];
+  product: IProduct = {} as IProduct;
+  ingredients: IProductIngredient[] = [];
+  labors: IProductLabor[] = [];
   units: string[] = [];
-  allIngredients: Ingredient[] = [];
+  allIngredients: IIngredient[] = [];
   productSvc = inject(ProductService);
   ingredientSvc = inject(IngredientService);
-
-  constructor() {}
 
   durationEditorOptions = {
     mask: '00:00:00',
@@ -56,7 +64,7 @@ export class ProductFormComponent implements OnInit {
     useMaskedValue: true,
   };
 
-  formatLaborTime = (rowData: any): string => {
+  formatLaborTime = (rowData: IProductLabor): string => {
     const rew: string = rowData.totalLaborPerItem;
     if (!rew) return '00:00:00';
 
@@ -73,7 +81,7 @@ export class ProductFormComponent implements OnInit {
           this.labors = data.labors ?? [];
           console.log('Product loaded:', data);
         },
-        error: (err) => {
+        error: (err: HttpErrorResponse) => {
           console.error('Failed to load product', err);
           notify('Failed to load product details', 'error', 4000);
         },
@@ -81,16 +89,16 @@ export class ProductFormComponent implements OnInit {
     }
 
     this.ingredientSvc.getIngredients().subscribe({
-      next: (data: Ingredient[]) => (this.allIngredients = data),
-      error: (err: any) => {
+      next: (data: IIngredient[]) => (this.allIngredients = data),
+      error: (err: HttpErrorResponse) => {
         console.error('Failed to load ingredients', err);
       },
     });
   }
 
-  onFocusedCellChanged(e: any) {
-    if (e.column.dataField === 'unit') {
-      const ingredientId: number = e.row.data.ingredientId;
+  onFocusedCellChanged(e: FocusedCellChangedEvent) {
+    if (e.column?.dataField === 'unit') {
+      const ingredientId: number = e.row?.data.ingredientId;
       this.getUnits(ingredientId);
     }
   }
@@ -112,7 +120,7 @@ export class ProductFormComponent implements OnInit {
     return rowData.unit ?? '';
   };
 
-  onIngredientIserted(e: any): void {
+  onIngredientIserted(e: RowInsertedEvent): void {
     const ingredient: any = e.data;
 
     this.productSvc.calculateIngredientCost(ingredient).subscribe({
@@ -122,7 +130,7 @@ export class ProductFormComponent implements OnInit {
 
         this.calculateTotalIngredientCost();
       },
-      error: (err: any) => {
+      error: (err: HttpErrorResponse) => {
         console.error('Failed to calculate ingredient cost', err);
       },
     });
@@ -132,7 +140,7 @@ export class ProductFormComponent implements OnInit {
     this.calculateTotalIngredientCost();
   }
 
-  onLaborInserted(e: any): void {
+  onLaborInserted(e: RowInsertedEvent): void {
     const labor = e.data;
     this.productSvc.calculateLabor(labor).subscribe({
       next: (result: any) => {
@@ -141,7 +149,7 @@ export class ProductFormComponent implements OnInit {
 
         this.calculateTotalLaborCost();
       },
-      error: (err: any) => {
+      error: (err: HttpErrorResponse) => {
         console.error('Failed to calculate labor cost', err);
       },
     });

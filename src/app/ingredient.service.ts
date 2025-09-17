@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Ingredient } from './models/ingredient.models';
+import { IIngredient } from './models/ingredient.models';
 import { environment } from '../environments/environment';
 
 @Injectable({
@@ -11,18 +11,19 @@ export class IngredientService {
   private apiUrl = `${environment.apiUrl}/ingredient`; //'https://localhost:7292/api/ingredient';
   http = inject(HttpClient);
 
-  constructor() {}
-
-  getIngredients(): Observable<Ingredient[]> {
-    return this.http.get<Ingredient[]>(this.apiUrl);
+  getIngredients(): Observable<IIngredient[]> {
+    return this.http.get<IIngredient[]>(this.apiUrl);
   }
 
-  createIngredient(ingredient: Ingredient): Observable<Ingredient> {
-    return this.http.post<Ingredient>(this.apiUrl, ingredient);
+  createIngredient(ingredient: IIngredient): Observable<IIngredient> {
+    return this.http.post<IIngredient>(this.apiUrl, ingredient);
   }
 
-  updateIngredient(id: number, ingredient: Ingredient): Observable<Ingredient> {
-    return this.http.put<Ingredient>(`${this.apiUrl}/${id}`, ingredient);
+  updateIngredient(
+    id: number,
+    ingredient: IIngredient
+  ): Observable<IIngredient> {
+    return this.http.put<IIngredient>(`${this.apiUrl}/${id}`, ingredient);
   }
 
   deleteIngredient(id: number): Observable<void> {

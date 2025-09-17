@@ -18,11 +18,8 @@ export interface IItemList {
   ownPrice: number;
 }
 
-export interface IItem extends IItemEdit {
+export interface IItem {
   itemId?: number;
-}
-
-export interface IItemEdit {
   itemName: string;
   costPrice: number;
   wholesalePrice: number;
@@ -37,6 +34,11 @@ export interface IItemEdit {
   wholesaleMargin: number;
   ownMargin: number;
   officeExpenses: number;
+  includeOfficeExpenses: boolean;
+  piecesPerBox: number;
+  retailBox: number;
+  wholesaleBox: number;
+  ownBox: number;
 
   products: IItemProduct[];
   ingredients: IItemIngredient[];
@@ -71,4 +73,13 @@ export interface IItemLabor {
   yields: number;
   totalLaborPerItem: string;
   itemId?: number;
+}
+export interface Sp {
+  selling: number;
+  profit: number;
+}
+
+export interface Pm {
+  margin: number;
+  profit: number;
 }

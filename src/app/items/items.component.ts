@@ -12,6 +12,7 @@ import { confirm } from 'devextreme/ui/dialog';
 import { IItemList } from '../models/item.models';
 import notify from 'devextreme/ui/notify';
 import { LoginService } from '../login.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-items',
@@ -29,13 +30,11 @@ import { LoginService } from '../login.service';
 })
 export class ItemsComponent implements OnInit {
   items: IItemList[] = [];
-  popupVisible: boolean = false;
+  popupVisible = false;
   selectedItemId?: number;
   itemSvc = inject(ItemService);
   loginService = inject(LoginService);
   loading = this.loginService.loading;
-
-  constructor() {}
 
   ngOnInit(): void {
     this.loading.set(true);
@@ -74,7 +73,7 @@ export class ItemsComponent implements OnInit {
             this.items = this.items.filter((p) => p.itemId !== itemId);
             console.log('Item deleted successfully');
           },
-          error: (err: any) => {
+          error: (err: HttpErrorResponse) => {
             console.error('Failed to delete recipe', err);
           },
         });
@@ -82,7 +81,7 @@ export class ItemsComponent implements OnInit {
     });
   }
 
-  onFormSaved(item: any): void {
+  onFormSaved(item: IItemList): void {
     this.popupVisible = false;
     const index = this.items.findIndex((p) => p.itemId === item.itemId);
     if (index !== -1) {

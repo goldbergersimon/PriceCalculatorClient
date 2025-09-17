@@ -27,7 +27,7 @@ export class SettingsComponent implements OnInit {
   @ViewChild(DxDataGridComponent, { static: false })
   dataGrid!: DxDataGridComponent;
   settings: Settings[] = [];
-  updating: boolean = false;
+  updating = false;
 
   ngOnInit(): void {
     this.settingsSvc.get().subscribe({
@@ -41,7 +41,7 @@ export class SettingsComponent implements OnInit {
     });
   }
 
-  formatKey(rowData: any) {
+  formatKey(rowData: Settings) {
     return rowData.key.replace(/([a-z])([A-Z])/g, '$1 $2');
   }
 

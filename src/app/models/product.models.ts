@@ -9,7 +9,8 @@ export interface IProductList {
   oz?: number;
 }
 
-export interface IProductEdit {
+export interface IProduct {
+  productId?: number;
   name: string;
   costPrice: number;
   ingredientCost: number;
@@ -19,10 +20,6 @@ export interface IProductEdit {
   pieces?: number;
   ingredients: IProductIngredient[];
   labors: IProductLabor[];
-}
-
-export interface IProduct extends IProductEdit {
-  productId?: number;
 }
 
 export interface IProductIngredient {

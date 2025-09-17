@@ -27,7 +27,7 @@
     gap: 16px;
     grid-template-columns: 1fr;
 
-    @media (min-width: 1220px) {
+    @media (min-width: 1300px) {
         grid-template-columns: repeat(2, 1fr);
     }
 
@@ -149,6 +149,7 @@
         border: solid 1px #cfcfcf;
         border-radius: 8px;
         width: 50%;
+        min-width: 400px;
     }
 
     td {

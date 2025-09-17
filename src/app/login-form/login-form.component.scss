@@ -79,4 +79,17 @@
 
 .remember-me {
   font-size: 14px;
+  input {
+    cursor: pointer;
+  }
+}
+
+.toggle-password {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 0.9rem;
+  user-select: none;
 }
