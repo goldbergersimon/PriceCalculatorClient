@@ -54,8 +54,10 @@
                     </dxi-column>
                     <dxi-column dataField="duration" caption="Time"
                         [editorOptions]="durationEditorOptions"></dxi-column>
-                    <dxi-column dataField="workers" caption="# of workers" dataType="number"></dxi-column>
-                    <dxi-column dataField="yields" caption="Yields" dataType="number"></dxi-column>
+                    <dxi-column dataField="workers" caption="# of workers" dataType="number"
+                        [editorOptions]="{format: {type: 'fixedPoint', precision: 0}}"></dxi-column>
+                    <dxi-column dataField="yields" caption="Yields" dataType="number"
+                        [editorOptions]="{format: {type: 'fixedPoint', precision: 0}}"></dxi-column>
                     <dxi-column dataField="totalLaborPerItem" caption="Time per item"
                         [calculateCellValue]="formatLaborTime" [allowEditing]="false"></dxi-column>
 
