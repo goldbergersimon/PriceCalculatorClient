@@ -1,8 +1,8 @@
-import { LoginFormComponent } from './login-form/login-form.component';
+import { LoginFormComponent } from './components/login-form/login-form.component';
 import { Routes } from '@angular/router';
-import { IngredientComponent } from './ingredient/ingredient.component';
-import { ProductsComponent } from './products/products.component';
-import { ItemsComponent } from './items/items.component';
+import { IngredientComponent } from './components/ingredient/ingredient.component';
+import { ProductsComponent } from './components/products/products.component';
+import { ItemsComponent } from './components/items/items.component';
 
 export const routes: Routes = [
   { path: 'ingredients', component: IngredientComponent },

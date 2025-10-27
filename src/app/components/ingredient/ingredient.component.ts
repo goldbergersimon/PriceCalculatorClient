@@ -1,9 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { DxDataGridModule } from 'devextreme-angular/ui/data-grid';
-import { IngredientService } from '../ingredient.service';
+import { IngredientService } from '../../services/ingredient.service';
 import { CommonModule } from '@angular/common';
 import notify from 'devextreme/ui/notify';
-import { IIngredient } from '../models/ingredient.models';
+import { IIngredient } from '../../models/ingredient.models';
 import {
   EditorPreparingEvent,
   RowInsertingEvent,

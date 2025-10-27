@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { DxDataGridModule } from 'devextreme-angular/ui/data-grid';
-import { ProductService } from '../product.service';
+import { ProductService } from '../../services/product.service';
 import notify from 'devextreme/ui/notify';
 import { confirm } from 'devextreme/ui/dialog';
 import { ProductFormComponent } from '../product-form/product-form.component';
 import { DxButtonModule, DxPopupModule } from 'devextreme-angular';
-import { IProductList } from '../models/product.models';
+import { IProductList } from '../../models/product.models';
 
 @Component({
   selector: 'app-products',

@@ -1,6 +1,6 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { LoginService } from './login.service';
+import { LoginService } from './services/login.service';
 
 export const loginInterceptor: HttpInterceptorFn = (req, next) => {
   const loginService = inject(LoginService);

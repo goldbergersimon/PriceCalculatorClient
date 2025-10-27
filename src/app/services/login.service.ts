@@ -10,8 +10,8 @@ import {
   tap,
   throwError,
 } from 'rxjs';
-import { DeviceService } from './device.service';
-import { environment } from '../environments/environment';
+import { DeviceService } from '../services/device.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { DxDataGridModule } from 'devextreme-angular/ui/data-grid';
-import { ItemService } from '../item.service';
+import { ItemService } from '../../services/item.service';
 import {
   DxButtonModule,
   DxLoadIndicatorModule,
@@ -9,9 +9,9 @@ import {
 } from 'devextreme-angular';
 import { ItemFormComponent } from '../item-form/item-form.component';
 import { confirm } from 'devextreme/ui/dialog';
-import { IItemList } from '../models/item.models';
+import { IItemList } from '../../models/item.models';
 import notify from 'devextreme/ui/notify';
-import { LoginService } from '../login.service';
+import { LoginService } from '../../services/login.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({

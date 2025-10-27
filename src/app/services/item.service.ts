@@ -6,8 +6,8 @@ import {
   IItemIngredient,
   IItemList,
   IItemProduct,
-} from './models/item.models';
-import { environment } from '../environments/environment';
+} from '../models/item.models';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',

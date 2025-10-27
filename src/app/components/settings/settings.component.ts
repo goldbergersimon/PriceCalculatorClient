@@ -1,4 +1,4 @@
-import { Settings, SettingService } from './../setting.service';
+import { Settings, SettingService } from '../../services/setting.service';
 import {
   Component,
   EventEmitter,

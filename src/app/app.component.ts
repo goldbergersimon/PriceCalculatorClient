@@ -3,8 +3,8 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { DxButtonModule, DxPopupModule } from 'devextreme-angular';
 import { DxTabsModule } from 'devextreme-angular/ui/tabs';
-import { SettingsComponent } from './settings/settings.component';
-import { LoginService } from './login.service';
+import { SettingsComponent } from './components/settings/settings.component';
+import { LoginService } from './services/login.service';
 import { ItemClickEvent } from 'devextreme/ui/tabs';
 
 @Component({

@@ -1,4 +1,4 @@
-import { ProductService } from './../product.service';
+import { ProductService } from '../../services/product.service';
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -17,14 +17,14 @@ import {
   DxTextBoxModule,
 } from 'devextreme-angular';
 import notify from 'devextreme/ui/notify';
-import { IngredientService } from '../ingredient.service';
-import { IIngredient } from '../models/ingredient.models';
+import { IngredientService } from '../../services/ingredient.service';
+import { IIngredient } from '../../models/ingredient.models';
 import {
   IProduct,
   IProductIngredient,
   IProductLabor,
   IProductList,
-} from '../models/product.models';
+} from '../../models/product.models';
 import {
   FocusedCellChangedEvent,
   RowInsertedEvent,

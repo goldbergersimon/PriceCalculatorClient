@@ -26,18 +26,18 @@ import { ValueChangedEvent as SwitchChangedEvent } from 'devextreme/ui/switch';
 
 import { forkJoin } from 'rxjs';
 
-import { ItemService } from '../item.service';
-import { ProductService } from '../product.service';
-import { IngredientService } from '../ingredient.service';
-import { IIngredient } from '../models/ingredient.models';
+import { ItemService } from '../../services/item.service';
+import { ProductService } from '../../services/product.service';
+import { IngredientService } from '../../services/ingredient.service';
+import { IIngredient } from '../../models/ingredient.models';
 import {
   IItem,
   IItemIngredient,
   IItemLabor,
   IItemList,
   IItemProduct,
-} from '../models/item.models';
-import { IProductList } from '../models/product.models';
+} from '../../models/item.models';
+import { IProductList } from '../../models/product.models';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
