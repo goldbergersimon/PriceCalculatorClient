@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginService } from '../login.service';
+import { LoginService } from '../../services/login.service';
 import { DxTextBoxModule, DxButtonModule } from 'devextreme-angular';
 
 @Component({
